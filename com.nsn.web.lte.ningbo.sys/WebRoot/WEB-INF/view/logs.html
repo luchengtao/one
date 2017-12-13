@@ -1,0 +1,34 @@
+<#include "/base.html"/>
+<@layout>
+<section class="content-header bg-currency">
+	<ol class="breadcrumb pull-left"><li>系统日志</li></ol>
+	<form class="navbar-form pull-left" role="search" id="searchForm">
+		<div class="form-group">
+			<label for="name_or_account">用户/姓名:</label>
+			<input type="text" class="form-control" id="sch_LIKE_user_name" name="sch_LIKE_user_name">
+		</div>
+		<div class="form-group">
+			<label for="name_or_account">模块:</label>
+			<input type="text" class="form-control" id="sch_LIKE_module" name="sch_LIKE_module">
+		</div>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="javascript:N.Util.reloadData('page_table');" class="btn btn-success btn-sm">查询</a>&nbsp;&nbsp;
+	</form>
+</section>
+<section class="content-fluid">
+	<table id="page_table" class="table table-striped table-bordered dt-responsive nowrap bg-currency"  width="100%">
+		<thead>
+			<tr>
+				<th>用户ID</th>
+				<th>姓名</th>
+				<th>IP</th>
+				<th>模块</th>
+				<th>参数</th>
+				<th>备注</th>
+				<th>时间</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+</section>
+</@layout>
+<script src="static/js/logs.js"></script>

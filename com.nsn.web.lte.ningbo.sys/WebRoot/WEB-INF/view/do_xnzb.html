@@ -1,0 +1,25 @@
+﻿<#include "/base.html"/>
+<@layout>
+<section class="content-header bg-currency">
+	<ol class="breadcrumb pull-left"><li>系统监控</li></ol>
+	<form class="navbar-form pull-left" role="search" id="searchForm">
+		<div class="form-group">
+			<label for="name_or_account">时间:</label>
+			<input class="form-control" id="content-Time-date" name = "content-endTime-date" onclick="laydate()" placeholder="" >
+		</div>
+		<a href="javascript:N.Util.reloadData('page_table');" class="btn btn-success btn-sm">查询</a>&nbsp;&nbsp;
+	</form>
+</section>
+<section class="content-fluid">
+	<div class="rowFluidBox" style="margin: 8px 0px;">
+    	<ul class="boardWidgetUl">
+       		<li style="width:18%"><a  class="bgC0"><span class="widgetStat widgetStat_green" id="widgetStat_1">0%</span><img src="styles/themes/icon/icon1.png"/>CPU</a></li>
+            <li style="width:18%"><a  class="bgC1"><span class="widgetStat widgetStat_yellow" id="widgetStat_2">0%</span><img src="styles/themes/icon/icon2.png"/>服务器磁盘IO</a></li>
+            <li style="width:18%"><a  class="bgC2"><span class="widgetStat widgetStat_green" id="widgetStat_3">0%</span><img  src="styles/themes/icon/icon3.png"/>物理内存</a></li>
+            <li style="width:18%"  ><a style="cursor:pointer" class="bgC4"><span class="widgetStat widgetStat_red" id="widgetStat_6">0%</span><img src="styles/themes/icon/icon4.png"/>- -</a></li> 
+            <li style="width:18%"><a  class="bgC3"><span class="widgetStat widgetStat_red" id="widgetStat_5">0%</span><img src="styles/themes/icon/icon4.png"/>- -</a></li>      
+        </ul> 	    		        	
+    </div>
+</section>
+</@layout>
+<script src="static/js/doxnzb.js"></script>

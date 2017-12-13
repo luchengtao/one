@@ -1,0 +1,2471 @@
+<#include "/base.html"/>
+<@layout>
+<section class="content-header bg-currency">
+	<ol class="breadcrumb pull-left">
+		<li>总体概览</li>
+	</ol>
+	<form class="navbar-form pull-left" role="search">
+		<div class="form-group">
+			<label for="content-header-date">日期：</label> 
+			<input class="form-control" id="date" style="width: 100px;">
+		</div>
+        <div class="form-group">
+            <a href="#" class="btn btn-success btn-block">查询</a>
+        </div>
+
+	</form>
+</section>
+<section class="content">
+	<div class="nav-num-custom bg-currency">
+		<div class="col-md-2 text-center">
+			注册用户数<span>10000</span>
+		</div>
+		<div class="col-md-2 text-center">
+			漫游用户数<span>10000</span>
+		</div>
+		<div class="col-md-2 text-center">
+			全网语音呼叫总次数<span>10000</span>
+		</div>
+		<div class="col-md-2 text-center">
+			全网视频呼叫总次数<span>10000</span>
+		</div>
+		<div class="col-md-2 text-center">
+			语音呼叫总流量<span>10000G</span>
+		</div>
+		<div class="col-md-2 text-center">
+			视频呼叫总流量<span>10000G</span>
+		</div>
+	</div>
+	<div class="nav-tabs-custom bg-currency">
+		<!-- Custom Tabs -->
+		<ul class="nav nav-tabs">
+			<li class="active">
+			<a href="#tab_1" data-toggle="tab"><i
+					class="glyphicon glyphicon-globe text-info"></i> 全网</a></li>
+			<li class="pull-left" style="padding-top: 10px; padding-left: 10px;">
+                    <div class=" pull-left "><i class="fa fa-square text-green"></i> 当天&nbsp;&nbsp;</div>
+                    <div class=" pull-left"><i class="fa fa-square text-blue"></i> 一周平均&nbsp;&nbsp;</div>
+                    <div class=" pull-left"><i class="fa fa-square text-orange"></i> 预警值&nbsp;&nbsp;</div>
+                </li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab_1" style="height: 150px;">
+				<div class="col-md-4 text-center" id="dmChart00"
+					style="height: 100%;"></div>
+				<div class="col-md-4 text-center" id="dmChart01"
+					style="height: 100%;"></div>
+				<div class="col-md-4 text-center" id="dmChart02"
+					style="height: 100%;"></div>
+			</div>
+		</div>
+		<!-- /.tab-content -->
+	</div>
+	<div class="row" style="margin-top: 5px;">
+		<div class="col-md-8 bg-currency">
+			<div class="nav-tabs-custom">
+				<!-- Custom Tabs -->
+				<ul class="nav nav-tabs">
+					<li class="active" onclick="tabClick(0)"><a href="#tab_11"
+						data-toggle="tab"><i class="fa  fa-volume-up text-info"></i>
+							语音业务KPI</a></li>
+					<li onclick="tabClick(1)"><a href="#tab_12" data-toggle="tab"><i
+							class="fa  fa-video-camera text-info"></i> 视频业务KPI</a></li>
+
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab_11" style="height: 478px;">
+						<div class="col-md-4 text-center" id="dmChart10"
+							style="height: 50%;"></div>
+						<div class="col-md-4 text-center" id="dmChart11"
+							style="height: 50%;"></div>
+						<div class="col-md-4 text-center" id="dmChart12"
+							style="height: 50%;"></div>
+						<div class="col-md-4 text-center" id="dmChart13"
+							style="height: 50%;"></div>
+						<div class="col-md-4 text-center" id="dmChart14"
+							style="height: 50%;"></div>
+						<div class="col-md-4 text-center" id="dmChart15"
+							style="height: 50%;"></div>
+					</div>
+					<div class="tab-pane" id="tab_12" style="height: 478px;">
+						<div class="col-md-4 text-center" id="dmChart20"
+							style="height: 50%;"></div>
+						<div class="col-md-4 text-center" id="dmChart21"
+							style="height: 50%;"></div>
+						<div class="col-md-4 text-center" id="dmChart22"
+							style="height: 50%;"></div>
+						<div class="col-md-4 text-center" id="dmChart23"
+							style="height: 50%;"></div>
+						<div class="col-md-4 text-center" id="dmChart24"
+							style="height: 50%;"></div>
+						<div class="col-md-4 text-center" id="dmChart25"
+							style="height: 50%;"></div>
+					</div>
+				</div>
+				<!-- /.tab-content -->
+			</div>
+		</div>
+		<div class="col-md-4 " style="height: 358px;">
+			<div class="bg-currency" style="margin-left: 5px;">
+				<div id="dmChart30" style="height: 376px; margin: 0 auto"></div>
+				<table id="t30" class="table table-striped table-bordered dt-responsive nowrap bg-currency dataTable no-footer" cellspacing="0"
+					width="100%"></table>
+			</div>
+		</div>
+	</div>
+
+</section>
+</@layout>
+<script type="text/javascript">
+	function oddevenTR() {
+		$("table.tablesorter tbody tr").each(
+				function() {
+					$(this).addClass("oddTr");
+					$(this).parents("table.tablesorter").find("tr:even")
+							.addClass("evenTr");
+				});
+		$("table.tablesorter tbody tr.spaceTr").css("background", "#f5f5f5");
+		$("table.tablesorter tbody tr.spaceHTr").css("background", "#CACACA");
+		$("table.tablesorter thead th.colspanTh").css("background", "#CCCCCC");
+		$("table.tablesorter tbody tr").hover(function() {
+			$(this).addClass("hoverTr");
+		}, function() {
+			$(this).removeClass("hoverTr");
+		});
+	}
+	var sdate = "2016-05-11";
+	var tabIndex = 0;
+	var loadFlag = new Array();
+
+	$(function() {
+		laydate({
+			elem : '#date',
+			format: 'YYYY-MM-DD',
+			istime : false,// 是否开启时间选择
+			istoday : false,
+			choose : function(dates) { // 选择好日期的回调
+			}
+		});
+		$("#datetimepicker").val(sdate);
+		$("#chartWrap").css('height', document.body.clientHeight - 136).css(
+				'background', '#ffffff');
+		query();
+
+	});
+
+	function query() {
+		sdate = $("#datetimepicker").val();
+		loadFlag = new Array();
+		queryNum("V_usercnt_Snap", "label1", "", "142090");
+		queryNum("V_roaming_usercnt_Snap", "label2", "", "29325");
+		queryNum("V_CALL_SETUP_AUDIO_Snap", "label3", "", "628695");
+		queryNum("V_CALL_SETUP_VIDEO_Snap", "label4", "", "1951");
+		queryNum("V_audio_traffic_Snap", "label5", "G", "428.34");
+		queryNum("V_video_traffic_Snap", "label6", "G", "2.91");
+
+		var V_REGISTER_SUCCRATE = [ {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 0,
+			"REG_SUCCRATE_D" : 96.83,
+			"REG_SUCCRATE_W" : 97.15,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 1,
+			"REG_SUCCRATE_D" : 96.09,
+			"REG_SUCCRATE_W" : 96.98,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 2,
+			"REG_SUCCRATE_D" : 95.67,
+			"REG_SUCCRATE_W" : 96.91,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 3,
+			"REG_SUCCRATE_D" : 95.62,
+			"REG_SUCCRATE_W" : 96.92,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 4,
+			"REG_SUCCRATE_D" : 95.74,
+			"REG_SUCCRATE_W" : 96.84,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 5,
+			"REG_SUCCRATE_D" : 96.22,
+			"REG_SUCCRATE_W" : 97.02,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 6,
+			"REG_SUCCRATE_D" : 96.78,
+			"REG_SUCCRATE_W" : 97.59,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 7,
+			"REG_SUCCRATE_D" : 97.46,
+			"REG_SUCCRATE_W" : 98.17,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 8,
+			"REG_SUCCRATE_D" : 97.70,
+			"REG_SUCCRATE_W" : 98.08,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 9,
+			"REG_SUCCRATE_D" : 97.74,
+			"REG_SUCCRATE_W" : 97.76,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 10,
+			"REG_SUCCRATE_D" : 97.59,
+			"REG_SUCCRATE_W" : 97.40,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 11,
+			"REG_SUCCRATE_D" : 97.93,
+			"REG_SUCCRATE_W" : 97.54,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 12,
+			"REG_SUCCRATE_D" : 98.04,
+			"REG_SUCCRATE_W" : 97.69,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 13,
+			"REG_SUCCRATE_D" : 98.03,
+			"REG_SUCCRATE_W" : 97.73,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 14,
+			"REG_SUCCRATE_D" : 97.99,
+			"REG_SUCCRATE_W" : 97.66,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 15,
+			"REG_SUCCRATE_D" : 98.06,
+			"REG_SUCCRATE_W" : 97.50,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 16,
+			"REG_SUCCRATE_D" : 97.98,
+			"REG_SUCCRATE_W" : 97.50,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 17,
+			"REG_SUCCRATE_D" : 97.87,
+			"REG_SUCCRATE_W" : 97.68,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 18,
+			"REG_SUCCRATE_D" : 97.60,
+			"REG_SUCCRATE_W" : 97.68,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 19,
+			"REG_SUCCRATE_D" : 97.35,
+			"REG_SUCCRATE_W" : 97.60,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 20,
+			"REG_SUCCRATE_D" : 97.70,
+			"REG_SUCCRATE_W" : 97.65,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 21,
+			"REG_SUCCRATE_D" : 97.50,
+			"REG_SUCCRATE_W" : 97.74,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 22,
+			"REG_SUCCRATE_D" : 97.34,
+			"REG_SUCCRATE_W" : 97.70,
+			"THRESHOLD" : 98
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 23,
+			"REG_SUCCRATE_D" : 97.59,
+			"REG_SUCCRATE_W" : 97.43,
+			"THRESHOLD" : 98
+		} ]
+		var V_MEDIA_TRAFFIC = [ {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 0,
+			"MEDIA_TRAFFIC_D" : 13.02750313,
+			"MEDIA_TRAFFIC_W" : 18.15997596
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 1,
+			"MEDIA_TRAFFIC_D" : 6.776700544,
+			"MEDIA_TRAFFIC_W" : 9.855762062
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 2,
+			"MEDIA_TRAFFIC_D" : 4.29102265,
+			"MEDIA_TRAFFIC_W" : 4.385997992
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 3,
+			"MEDIA_TRAFFIC_D" : 3.558635784,
+			"MEDIA_TRAFFIC_W" : 2.347788683
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 4,
+			"MEDIA_TRAFFIC_D" : 1.981074687,
+			"MEDIA_TRAFFIC_W" : 1.682610632
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 5,
+			"MEDIA_TRAFFIC_D" : 1.637735047,
+			"MEDIA_TRAFFIC_W" : 2.218548479
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 6,
+			"MEDIA_TRAFFIC_D" : 2.309801827,
+			"MEDIA_TRAFFIC_W" : 5.804332823
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 7,
+			"MEDIA_TRAFFIC_D" : 6.69742927,
+			"MEDIA_TRAFFIC_W" : 16.85168756
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 8,
+			"MEDIA_TRAFFIC_D" : 13.84544972,
+			"MEDIA_TRAFFIC_W" : 34.92888136
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 9,
+			"MEDIA_TRAFFIC_D" : 28.25852462,
+			"MEDIA_TRAFFIC_W" : 48.20942766
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 10,
+			"MEDIA_TRAFFIC_D" : 39.91838199,
+			"MEDIA_TRAFFIC_W" : 62.79900335
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 11,
+			"MEDIA_TRAFFIC_D" : 37.56082345,
+			"MEDIA_TRAFFIC_W" : 60.39196836
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 12,
+			"MEDIA_TRAFFIC_D" : 36.40060236,
+			"MEDIA_TRAFFIC_W" : 52.26510212
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 13,
+			"MEDIA_TRAFFIC_D" : 40.18079639,
+			"MEDIA_TRAFFIC_W" : 52.03075404
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 14,
+			"MEDIA_TRAFFIC_D" : 32.74973066,
+			"MEDIA_TRAFFIC_W" : 56.74353602
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 15,
+			"MEDIA_TRAFFIC_D" : 25.34332551,
+			"MEDIA_TRAFFIC_W" : 65.28708765
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 16,
+			"MEDIA_TRAFFIC_D" : 24.96618191,
+			"MEDIA_TRAFFIC_W" : 72.03528802
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 17,
+			"MEDIA_TRAFFIC_D" : 13.63578173,
+			"MEDIA_TRAFFIC_W" : 80.91488647
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 18,
+			"MEDIA_TRAFFIC_D" : 18.01700558,
+			"MEDIA_TRAFFIC_W" : 79.35174277
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 19,
+			"MEDIA_TRAFFIC_D" : 15.88263426,
+			"MEDIA_TRAFFIC_W" : 72.71841546
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 20,
+			"MEDIA_TRAFFIC_D" : 22.90712624,
+			"MEDIA_TRAFFIC_W" : 77.99194196
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 21,
+			"MEDIA_TRAFFIC_D" : 24.64564992,
+			"MEDIA_TRAFFIC_W" : 78.06143958
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 22,
+			"MEDIA_TRAFFIC_D" : 21.05647978,
+			"MEDIA_TRAFFIC_W" : 58.68677439
+		}, {
+			"SDATE" : "2016-05-11",
+			"SHOUR" : 23,
+			"MEDIA_TRAFFIC_D" : 10.53538979,
+			"MEDIA_TRAFFIC_W" : 36.51363875
+		} ];
+
+		queryLineChart("V_REGISTER_SUCCRATE", "dmChart00", "全网注册成功率(%)", "%",
+				V_REGISTER_SUCCRATE, "business.html");
+		queryLineChart("V_MEDIA_TRAFFIC", "dmChart01", "全网呼叫总流量(G)", "G",
+				V_MEDIA_TRAFFIC, "business.html");
+		queryLineChart("V_MEDIA_TRAFFIC", "dmChart02", "活跃用户数", "",
+				V_MEDIA_TRAFFIC, "business.html");
+
+		var data = [ {
+			"SDATE" : "2016-06-11T16:00:00.000Z",
+			"BRAND" : "苹果",
+			"PRODUCT" : "iPhone 6 (A1586)",
+			"NO_OF_USER" : 38967,
+			"PENETRATION_RATE" : 28.26,
+			"TOTAL_TRAFFIC" : 131.109
+		}, {
+			"SDATE" : "2016-06-11T16:00:00.000Z",
+			"BRAND" : "苹果",
+			"PRODUCT" : "iPhone 6 PLUS (A1524)",
+			"NO_OF_USER" : 29164,
+			"PENETRATION_RATE" : 21.15,
+			"TOTAL_TRAFFIC" : 107.348
+		}, {
+			"SDATE" : "2016-06-11T16:00:00.000Z",
+			"BRAND" : "苹果",
+			"PRODUCT" : "iPhone 6s (A1700)",
+			"NO_OF_USER" : 21367,
+			"PENETRATION_RATE" : 15.50,
+			"TOTAL_TRAFFIC" : 58.634
+		}, {
+			"SDATE" : "2016-06-11T16:00:00.000Z",
+			"BRAND" : "苹果",
+			"PRODUCT" : "iPhone 6s Plus (A1699)",
+			"NO_OF_USER" : 14561,
+			"PENETRATION_RATE" : 10.56,
+			"TOTAL_TRAFFIC" : 42.363
+		}, {
+			"SDATE" : "2016-06-11T16:00:00.000Z",
+			"BRAND" : "苹果",
+			"PRODUCT" : "iPhone 6s (A1688)",
+			"NO_OF_USER" : 5327,
+			"PENETRATION_RATE" : 3.86,
+			"TOTAL_TRAFFIC" : 15.332
+		}, {
+			"SDATE" : "2016-06-11T16:00:00.000Z",
+			"BRAND" : "其他",
+			"PRODUCT" : "",
+			"NO_OF_USER" : 28490,
+			"PENETRATION_RATE" : 20.12,
+			"TOTAL_TRAFFIC" : 91.360
+
+		} ];
+		var chartData = [];
+		for (var i = 0; i < 6; i++) {
+			if (i == 0) {
+				var BRAND = data[i]['PRODUCT'];
+				if (data[i]['PRODUCT']) {
+					BRAND = '-' + BRAND;
+				}
+				chartData[i] = {
+					name : data[i]['BRAND'] + BRAND,
+					y : data[i]['NO_OF_USER'],
+					sliced : true,
+					selected : true
+				};
+			} else {
+				var BRAND = data[i]['PRODUCT'];
+				if (data[i]['PRODUCT']) {
+					BRAND = '-' + BRAND;
+				}
+				chartData[i] = [ data[i]['BRAND'] + BRAND,
+						data[i]['NO_OF_USER'] ];
+			}
+		}
+		drawPieChart("dmChart30", "用户数最多的5种终端", "用户数", chartData,
+				"terminal.html");
+
+		if (loadFlag[tabIndex] == null) {
+			loadFlag[tabIndex] = true;
+			load();
+		}
+		var str = "";
+		if (data.length > 0) {
+			str = str + "<thead><tr>";
+			str = str
+					+ "<th align='center' style='font-weight: bold;'>TOP终端型号</th>";
+			str = str
+					+ "<th align='center' style='font-weight: bold;'>用户数</th>";
+			str = str
+					+ "<th align='center' style='font-weight: bold;'>渗透率(%)</th>";
+			str = str
+					+ "<th align='center' style='font-weight: bold;'>流量(G)</th>";
+			str = str + "</tr></thead><tbody>";
+
+			for (var i = 0; i < data.length; i++) {
+				str = str + "<tr>";
+				var brand = data[i]['BRAND'];
+				if (data[i]['BRAND']) {
+					brand + "-";
+				}
+				str = str + "<td align='center'>" + brand + data[i]['PRODUCT']
+						+ "</td>";
+				str = str + "<td align='center'>" + data[i]['NO_OF_USER']
+						+ "</td>";
+				str = str + "<td align='center'>" + data[i]['PENETRATION_RATE']
+						+ "</td>";
+				str = str + "<td align='center'>" + data[i]['TOTAL_TRAFFIC']
+						+ "</td>";
+				str = str + "</tr>";
+			}
+			str = str + "</tbody>";
+		}
+		$("#t30").html(str);
+		oddevenTR();
+
+	}
+
+	function tabClick(i) {
+		tabIndex = i;
+		if (loadFlag[tabIndex] == null) {
+			loadFlag[tabIndex] = true;
+			load();
+		}
+	}
+
+	function load() {
+		if (tabIndex == 0) {
+			setTimeout("load0()", 1);
+		} else if (tabIndex == 1) {
+			setTimeout("load1()", 1);
+		}
+	}
+
+	function load0() {
+		queryLineChart("V_A_CALL_SETUP_SUCCRATE", "dmChart10", "VoLTE接通率(%)",
+				"%", [ {
+					"SDATE" : "2016-05-10T16:00:00.000Z",
+					"SHOUR" : 0,
+					"CALL_SETUP_SUCCRATE_D" : 97.75,
+					"CALL_SETUP_SUCCRATE_W" : 95.24,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T17:00:00.000Z",
+					"SHOUR" : 1,
+					"CALL_SETUP_SUCCRATE_D" : 97.18,
+					"CALL_SETUP_SUCCRATE_W" : 94.28,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T18:00:00.000Z",
+					"SHOUR" : 2,
+					"CALL_SETUP_SUCCRATE_D" : 97.91,
+					"CALL_SETUP_SUCCRATE_W" : 93.85,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T19:00:00.000Z",
+					"SHOUR" : 3,
+					"CALL_SETUP_SUCCRATE_D" : 98.17,
+					"CALL_SETUP_SUCCRATE_W" : 92.94,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T20:00:00.000Z",
+					"SHOUR" : 4,
+					"CALL_SETUP_SUCCRATE_D" : 99.14,
+					"CALL_SETUP_SUCCRATE_W" : 93.09,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T21:00:00.000Z",
+					"SHOUR" : 5,
+					"CALL_SETUP_SUCCRATE_D" : 97.36,
+					"CALL_SETUP_SUCCRATE_W" : 94.85,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T22:00:00.000Z",
+					"SHOUR" : 6,
+					"CALL_SETUP_SUCCRATE_D" : 97.40,
+					"CALL_SETUP_SUCCRATE_W" : 97.15,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T23:00:00.000Z",
+					"SHOUR" : 7,
+					"CALL_SETUP_SUCCRATE_D" : 99.18,
+					"CALL_SETUP_SUCCRATE_W" : 98.84,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T00:00:00.000Z",
+					"SHOUR" : 8,
+					"CALL_SETUP_SUCCRATE_D" : 98.76,
+					"CALL_SETUP_SUCCRATE_W" : 99.29,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T01:00:00.000Z",
+					"SHOUR" : 9,
+					"CALL_SETUP_SUCCRATE_D" : 98.62,
+					"CALL_SETUP_SUCCRATE_W" : 99.76,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T02:00:00.000Z",
+					"SHOUR" : 10,
+					"CALL_SETUP_SUCCRATE_D" : 98.95,
+					"CALL_SETUP_SUCCRATE_W" : 99.24,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T03:00:00.000Z",
+					"SHOUR" : 11,
+					"CALL_SETUP_SUCCRATE_D" : 99.39,
+					"CALL_SETUP_SUCCRATE_W" : 98.36,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T04:00:00.000Z",
+					"SHOUR" : 12,
+					"CALL_SETUP_SUCCRATE_D" : 99.08,
+					"CALL_SETUP_SUCCRATE_W" : 99.96,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T05:00:00.000Z",
+					"SHOUR" : 13,
+					"CALL_SETUP_SUCCRATE_D" : 99.41,
+					"CALL_SETUP_SUCCRATE_W" : 98.16,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T06:00:00.000Z",
+					"SHOUR" : 14,
+					"CALL_SETUP_SUCCRATE_D" : 99.98,
+					"CALL_SETUP_SUCCRATE_W" : 99.96,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T07:00:00.000Z",
+					"SHOUR" : 15,
+					"CALL_SETUP_SUCCRATE_D" : 99.61,
+					"CALL_SETUP_SUCCRATE_W" : 98.10,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T08:00:00.000Z",
+					"SHOUR" : 16,
+					"CALL_SETUP_SUCCRATE_D" : 99.72,
+					"CALL_SETUP_SUCCRATE_W" : 99.96,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T09:00:00.000Z",
+					"SHOUR" : 17,
+					"CALL_SETUP_SUCCRATE_D" : 99.11,
+					"CALL_SETUP_SUCCRATE_W" : 98.04,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T10:00:00.000Z",
+					"SHOUR" : 18,
+					"CALL_SETUP_SUCCRATE_D" : 98.67,
+					"CALL_SETUP_SUCCRATE_W" : 99.75,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T11:00:00.000Z",
+					"SHOUR" : 19,
+					"CALL_SETUP_SUCCRATE_D" : 98.41,
+					"CALL_SETUP_SUCCRATE_W" : 99.49,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T12:00:00.000Z",
+					"SHOUR" : 20,
+					"CALL_SETUP_SUCCRATE_D" : 97.45,
+					"CALL_SETUP_SUCCRATE_W" : 98.87,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T13:00:00.000Z",
+					"SHOUR" : 21,
+					"CALL_SETUP_SUCCRATE_D" : 97.85,
+					"CALL_SETUP_SUCCRATE_W" : 98.80,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T14:00:00.000Z",
+					"SHOUR" : 22,
+					"CALL_SETUP_SUCCRATE_D" : 97.19,
+					"CALL_SETUP_SUCCRATE_W" : 98.48,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T15:00:00.000Z",
+					"SHOUR" : 23,
+					"CALL_SETUP_SUCCRATE_D" : 97.05,
+					"CALL_SETUP_SUCCRATE_W" : 97.11,
+					"THRESHOLD" : 95
+				} ], "business.html");
+		queryLineChart("V_A_CALL_SETUP_LATENCY", "dmChart11", "VoLTE呼叫建立时延(s)",
+				"s", [ {
+					"SDATE" : "2016-05-10T16:00:00.000Z",
+					"SHOUR" : 0,
+					"CALL_SETUP_LATENCY_D" : 3.38,
+					"CALL_SETUP_LATENCY_W" : 3.37,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T17:00:00.000Z",
+					"SHOUR" : 1,
+					"CALL_SETUP_LATENCY_D" : 3.23,
+					"CALL_SETUP_LATENCY_W" : 3.22,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T18:00:00.000Z",
+					"SHOUR" : 2,
+					"CALL_SETUP_LATENCY_D" : 3.00,
+					"CALL_SETUP_LATENCY_W" : 3.04,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T19:00:00.000Z",
+					"SHOUR" : 3,
+					"CALL_SETUP_LATENCY_D" : 2.94,
+					"CALL_SETUP_LATENCY_W" : 2.87,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T20:00:00.000Z",
+					"SHOUR" : 4,
+					"CALL_SETUP_LATENCY_D" : 2.91,
+					"CALL_SETUP_LATENCY_W" : 2.85,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T21:00:00.000Z",
+					"SHOUR" : 5,
+					"CALL_SETUP_LATENCY_D" : 3.08,
+					"CALL_SETUP_LATENCY_W" : 3.11,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T22:00:00.000Z",
+					"SHOUR" : 6,
+					"CALL_SETUP_LATENCY_D" : 3.31,
+					"CALL_SETUP_LATENCY_W" : 3.44,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T23:00:00.000Z",
+					"SHOUR" : 7,
+					"CALL_SETUP_LATENCY_D" : 3.53,
+					"CALL_SETUP_LATENCY_W" : 3.59,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T00:00:00.000Z",
+					"SHOUR" : 8,
+					"CALL_SETUP_LATENCY_D" : 3.57,
+					"CALL_SETUP_LATENCY_W" : 3.59,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T01:00:00.000Z",
+					"SHOUR" : 9,
+					"CALL_SETUP_LATENCY_D" : 3.47,
+					"CALL_SETUP_LATENCY_W" : 3.43,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T02:00:00.000Z",
+					"SHOUR" : 10,
+					"CALL_SETUP_LATENCY_D" : 3.44,
+					"CALL_SETUP_LATENCY_W" : 3.36,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T03:00:00.000Z",
+					"SHOUR" : 11,
+					"CALL_SETUP_LATENCY_D" : 3.42,
+					"CALL_SETUP_LATENCY_W" : 3.38,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T04:00:00.000Z",
+					"SHOUR" : 12,
+					"CALL_SETUP_LATENCY_D" : 3.50,
+					"CALL_SETUP_LATENCY_W" : 3.50,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T05:00:00.000Z",
+					"SHOUR" : 13,
+					"CALL_SETUP_LATENCY_D" : 3.46,
+					"CALL_SETUP_LATENCY_W" : 3.45,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T06:00:00.000Z",
+					"SHOUR" : 14,
+					"CALL_SETUP_LATENCY_D" : 3.43,
+					"CALL_SETUP_LATENCY_W" : 3.37,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T07:00:00.000Z",
+					"SHOUR" : 15,
+					"CALL_SETUP_LATENCY_D" : 3.46,
+					"CALL_SETUP_LATENCY_W" : 3.38,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T08:00:00.000Z",
+					"SHOUR" : 16,
+					"CALL_SETUP_LATENCY_D" : 3.47,
+					"CALL_SETUP_LATENCY_W" : 3.40,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T09:00:00.000Z",
+					"SHOUR" : 17,
+					"CALL_SETUP_LATENCY_D" : 3.47,
+					"CALL_SETUP_LATENCY_W" : 3.46,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T10:00:00.000Z",
+					"SHOUR" : 18,
+					"CALL_SETUP_LATENCY_D" : 3.47,
+					"CALL_SETUP_LATENCY_W" : 3.53,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T11:00:00.000Z",
+					"SHOUR" : 19,
+					"CALL_SETUP_LATENCY_D" : 3.47,
+					"CALL_SETUP_LATENCY_W" : 3.54,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T12:00:00.000Z",
+					"SHOUR" : 20,
+					"CALL_SETUP_LATENCY_D" : 3.46,
+					"CALL_SETUP_LATENCY_W" : 3.55,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T13:00:00.000Z",
+					"SHOUR" : 21,
+					"CALL_SETUP_LATENCY_D" : 3.50,
+					"CALL_SETUP_LATENCY_W" : 3.55,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T14:00:00.000Z",
+					"SHOUR" : 22,
+					"CALL_SETUP_LATENCY_D" : 3.55,
+					"CALL_SETUP_LATENCY_W" : 3.52,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T15:00:00.000Z",
+					"SHOUR" : 23,
+					"CALL_SETUP_LATENCY_D" : 3.44,
+					"CALL_SETUP_LATENCY_W" : 3.50,
+					"THRESHOLD" : 5
+				} ], "business.html");
+		queryLineChart("V_A_CALL_DROP_RATE", "dmChart12", "VoLTE掉话率(%)", "%", [
+				{
+					"SDATE" : "2016-05-10T16:00:00.000Z",
+					"SHOUR" : 0,
+					"CALL_DROP_RATE_D" : 0.56,
+					"CALL_DROP_RATE_W" : 0.39,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-10T17:00:00.000Z",
+					"SHOUR" : 1,
+					"CALL_DROP_RATE_D" : 0.58,
+					"CALL_DROP_RATE_W" : 0.36,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-10T18:00:00.000Z",
+					"SHOUR" : 2,
+					"CALL_DROP_RATE_D" : 0.47,
+					"CALL_DROP_RATE_W" : 0.41,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-10T19:00:00.000Z",
+					"SHOUR" : 3,
+					"CALL_DROP_RATE_D" : 0.31,
+					"CALL_DROP_RATE_W" : 0.31,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-10T20:00:00.000Z",
+					"SHOUR" : 4,
+					"CALL_DROP_RATE_D" : 0.29,
+					"CALL_DROP_RATE_W" : 0.46,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-10T21:00:00.000Z",
+					"SHOUR" : 5,
+					"CALL_DROP_RATE_D" : 0.31,
+					"CALL_DROP_RATE_W" : 0.43,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-10T22:00:00.000Z",
+					"SHOUR" : 6,
+					"CALL_DROP_RATE_D" : 0.27,
+					"CALL_DROP_RATE_W" : 0.43,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-10T23:00:00.000Z",
+					"SHOUR" : 7,
+					"CALL_DROP_RATE_D" : 0.35,
+					"CALL_DROP_RATE_W" : 0.44,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T00:00:00.000Z",
+					"SHOUR" : 8,
+					"CALL_DROP_RATE_D" : 0.38,
+					"CALL_DROP_RATE_W" : 0.40,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T01:00:00.000Z",
+					"SHOUR" : 9,
+					"CALL_DROP_RATE_D" : 0.37,
+					"CALL_DROP_RATE_W" : 0.40,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T02:00:00.000Z",
+					"SHOUR" : 10,
+					"CALL_DROP_RATE_D" : 0.41,
+					"CALL_DROP_RATE_W" : 0.39,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T03:00:00.000Z",
+					"SHOUR" : 11,
+					"CALL_DROP_RATE_D" : 0.40,
+					"CALL_DROP_RATE_W" : 0.38,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T04:00:00.000Z",
+					"SHOUR" : 12,
+					"CALL_DROP_RATE_D" : 0.39,
+					"CALL_DROP_RATE_W" : 0.38,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T05:00:00.000Z",
+					"SHOUR" : 13,
+					"CALL_DROP_RATE_D" : 0.38,
+					"CALL_DROP_RATE_W" : 0.34,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T06:00:00.000Z",
+					"SHOUR" : 14,
+					"CALL_DROP_RATE_D" : 0.39,
+					"CALL_DROP_RATE_W" : 0.38,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T07:00:00.000Z",
+					"SHOUR" : 15,
+					"CALL_DROP_RATE_D" : 0.35,
+					"CALL_DROP_RATE_W" : 0.41,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T08:00:00.000Z",
+					"SHOUR" : 16,
+					"CALL_DROP_RATE_D" : 0.30,
+					"CALL_DROP_RATE_W" : 0.44,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T09:00:00.000Z",
+					"SHOUR" : 17,
+					"CALL_DROP_RATE_D" : 0.40,
+					"CALL_DROP_RATE_W" : 0.44,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T10:00:00.000Z",
+					"SHOUR" : 18,
+					"CALL_DROP_RATE_D" : 0.34,
+					"CALL_DROP_RATE_W" : 0.49,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T11:00:00.000Z",
+					"SHOUR" : 19,
+					"CALL_DROP_RATE_D" : 0.32,
+					"CALL_DROP_RATE_W" : 0.45,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T12:00:00.000Z",
+					"SHOUR" : 20,
+					"CALL_DROP_RATE_D" : 0.23,
+					"CALL_DROP_RATE_W" : 0.40,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T13:00:00.000Z",
+					"SHOUR" : 21,
+					"CALL_DROP_RATE_D" : 0.36,
+					"CALL_DROP_RATE_W" : 0.39,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T14:00:00.000Z",
+					"SHOUR" : 22,
+					"CALL_DROP_RATE_D" : 0.40,
+					"CALL_DROP_RATE_W" : 0.45,
+					"THRESHOLD" : 2
+				}, {
+					"SDATE" : "2016-05-11T15:00:00.000Z",
+					"SHOUR" : 23,
+					"CALL_DROP_RATE_D" : 0.86,
+					"CALL_DROP_RATE_W" : 0.44,
+					"THRESHOLD" : 2
+				} ], "business.html");
+		queryLineChart("V_A_MOS_VALUE", "dmChart13", "MOS值", "", [ {
+			"SDATE" : "2016-05-10T16:00:00.000Z",
+			"SHOUR" : 0,
+			"MOS_D" : 3.88,
+			"MOS_W" : 4.01,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-10T23:00:00.000Z",
+			"SHOUR" : 1,
+			"MOS_D" : 3.86,
+			"MOS_W" : 4.03,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T00:00:00.000Z",
+			"SHOUR" : 2,
+			"MOS_D" : 3.88,
+			"MOS_W" : 3.79,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T01:00:00.000Z",
+			"SHOUR" : 3,
+			"MOS_D" : 3.87,
+			"MOS_W" : 3.95,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T02:00:00.000Z",
+			"SHOUR" : 4,
+			"MOS_D" : 3.90,
+			"MOS_W" : 3.80,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T03:00:00.000Z",
+			"SHOUR" : 5,
+			"MOS_D" : 3.90,
+			"MOS_W" : 3.93,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T04:00:00.000Z",
+			"SHOUR" : 6,
+			"MOS_D" : 3.87,
+			"MOS_W" : 3.96,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T05:00:00.000Z",
+			"SHOUR" : 8,
+			"MOS_D" : 3.86,
+			"MOS_W" : 3.94,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T06:00:00.000Z",
+			"SHOUR" : 9,
+			"MOS_D" : 3.86,
+			"MOS_W" : 3.94,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T07:00:00.000Z",
+			"SHOUR" : 10,
+			"MOS_D" : 3.86,
+			"MOS_W" : 3.92,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T08:00:00.000Z",
+			"SHOUR" : 11,
+			"MOS_D" : 3.86,
+			"MOS_W" : 3.93,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T09:00:00.000Z",
+			"SHOUR" : 12,
+			"MOS_D" : 3.87,
+			"MOS_W" : 3.92,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T10:00:00.000Z",
+			"SHOUR" : 13,
+			"MOS_D" : 3.86,
+			"MOS_W" : 3.92,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T11:00:00.000Z",
+			"SHOUR" : 14,
+			"MOS_D" : 3.85,
+			"MOS_W" : 3.91,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T12:00:00.000Z",
+			"SHOUR" : 15,
+			"MOS_D" : 3.86,
+			"MOS_W" : 3.89,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T13:00:00.000Z",
+			"SHOUR" : 16,
+			"MOS_D" : 3.86,
+			"MOS_W" : 4.06,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T14:00:00.000Z",
+			"SHOUR" : 17,
+			"MOS_D" : 3.85,
+			"MOS_W" : 4.07,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T15:00:00.000Z",
+			"SHOUR" : 18,
+			"MOS_D" : 3.86,
+			"MOS_W" : 4.21,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T11:00:00.000Z",
+			"SHOUR" : 19,
+			"MOS_D" : 3.86,
+			"MOS_W" : 4.14,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T12:00:00.000Z",
+			"SHOUR" : 20,
+			"MOS_D" : 3.87,
+			"MOS_W" : 4.20,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T13:00:00.000Z",
+			"SHOUR" : 21,
+			"MOS_D" : 3.88,
+			"MOS_W" : 4.17,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T14:00:00.000Z",
+			"SHOUR" : 22,
+			"MOS_D" : 3.88,
+			"MOS_W" : 4.21,
+			"THRESHOLD" : 3.5
+		}, {
+			"SDATE" : "2016-05-11T15:00:00.000Z",
+			"SHOUR" : 23,
+			"MOS_D" : 3.88,
+			"MOS_W" : 4.18,
+			"THRESHOLD" : 3.5
+		} ], "business.html");
+		queryLineChart("V_A_esrvcc_succrate", "dmChart14", "eSRVCC切换成功率(%)",
+				"%", [ {
+					"SDATE" : "2016-05-10T16:00:00.000Z",
+					"SHOUR" : 0,
+					"ESRVCC_SUCCRATE_D" : 94.82,
+					"ESRVCC_SUCCRATE_W" : 96.94,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-10T17:00:00.000Z",
+					"SHOUR" : 1,
+					"ESRVCC_SUCCRATE_D" : 91.19,
+					"ESRVCC_SUCCRATE_W" : 98.19,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-10T18:00:00.000Z",
+					"SHOUR" : 2,
+					"ESRVCC_SUCCRATE_D" : 96.08,
+					"ESRVCC_SUCCRATE_W" : 98.94,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-10T19:00:00.000Z",
+					"SHOUR" : 3,
+					"ESRVCC_SUCCRATE_D" : 100,
+					"ESRVCC_SUCCRATE_W" : 99.06,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-10T20:00:00.000Z",
+					"SHOUR" : 4,
+					"ESRVCC_SUCCRATE_D" : 100,
+					"ESRVCC_SUCCRATE_W" : 91.88,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-10T21:00:00.000Z",
+					"SHOUR" : 5,
+					"ESRVCC_SUCCRATE_D" : 98.36,
+					"ESRVCC_SUCCRATE_W" : 98.61,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-10T22:00:00.000Z",
+					"SHOUR" : 6,
+					"ESRVCC_SUCCRATE_D" : 99.38,
+					"ESRVCC_SUCCRATE_W" : 93.33,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-10T23:00:00.000Z",
+					"SHOUR" : 7,
+					"ESRVCC_SUCCRATE_D" : 97.41,
+					"ESRVCC_SUCCRATE_W" : 98.05,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T00:00:00.000Z",
+					"SHOUR" : 8,
+					"ESRVCC_SUCCRATE_D" : 97.97,
+					"ESRVCC_SUCCRATE_W" : 96.96,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T01:00:00.000Z",
+					"SHOUR" : 9,
+					"ESRVCC_SUCCRATE_D" : 97.04,
+					"ESRVCC_SUCCRATE_W" : 93.91,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T02:00:00.000Z",
+					"SHOUR" : 10,
+					"ESRVCC_SUCCRATE_D" : 95.03,
+					"ESRVCC_SUCCRATE_W" : 94.82,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T03:00:00.000Z",
+					"SHOUR" : 11,
+					"ESRVCC_SUCCRATE_D" : 95.18,
+					"ESRVCC_SUCCRATE_W" : 90.01,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T04:00:00.000Z",
+					"SHOUR" : 12,
+					"ESRVCC_SUCCRATE_D" : 96.84,
+					"ESRVCC_SUCCRATE_W" : 96.44,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T05:00:00.000Z",
+					"SHOUR" : 13,
+					"ESRVCC_SUCCRATE_D" : 96.20,
+					"ESRVCC_SUCCRATE_W" : 94.70,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T06:00:00.000Z",
+					"SHOUR" : 14,
+					"ESRVCC_SUCCRATE_D" : 95.43,
+					"ESRVCC_SUCCRATE_W" : 99.38,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T07:00:00.000Z",
+					"SHOUR" : 15,
+					"ESRVCC_SUCCRATE_D" : 97.98,
+					"ESRVCC_SUCCRATE_W" : 97.41,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T08:00:00.000Z",
+					"SHOUR" : 16,
+					"ESRVCC_SUCCRATE_D" : 94.32,
+					"ESRVCC_SUCCRATE_W" : 97.97,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T09:00:00.000Z",
+					"SHOUR" : 17,
+					"ESRVCC_SUCCRATE_D" : 97.28,
+					"ESRVCC_SUCCRATE_W" : 97.04,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T10:00:00.000Z",
+					"SHOUR" : 18,
+					"ESRVCC_SUCCRATE_D" : 94.82,
+					"ESRVCC_SUCCRATE_W" : 95.03,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T11:00:00.000Z",
+					"SHOUR" : 19,
+					"ESRVCC_SUCCRATE_D" : 96.22,
+					"ESRVCC_SUCCRATE_W" : 95.18,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T12:00:00.000Z",
+					"SHOUR" : 20,
+					"ESRVCC_SUCCRATE_D" : 96.49,
+					"ESRVCC_SUCCRATE_W" : 96.04,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T13:00:00.000Z",
+					"SHOUR" : 21,
+					"ESRVCC_SUCCRATE_D" : 95.89,
+					"ESRVCC_SUCCRATE_W" : 98.04,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T14:00:00.000Z",
+					"SHOUR" : 22,
+					"ESRVCC_SUCCRATE_D" : 97.47,
+					"ESRVCC_SUCCRATE_W" : 98.07,
+					"THRESHOLD" : 90
+				}, {
+					"SDATE" : "2016-05-11T15:00:00.000Z",
+					"SHOUR" : 23,
+					"ESRVCC_SUCCRATE_D" : 97,
+					"ESRVCC_SUCCRATE_W" : 99.09,
+					"THRESHOLD" : 90
+				} ], "business.html");
+		queryLineChart("V_A_esrvcc_latency", "dmChart15", "eSRVCC切换时长(ms)",
+				"ms", [ {
+					"SDATE" : "2016-05-10T16:00:00.000Z",
+					"SHOUR" : 0,
+					"ESRVCC_LATENCY_D" : 827.76,
+					"ESRVCC_LATENCY_W" : 833.62,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-10T17:00:00.000Z",
+					"SHOUR" : 1,
+					"ESRVCC_LATENCY_D" : 792.46,
+					"ESRVCC_LATENCY_W" : 818.20,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-10T18:00:00.000Z",
+					"SHOUR" : 2,
+					"ESRVCC_LATENCY_D" : 780.39,
+					"ESRVCC_LATENCY_W" : 798.76,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-10T19:00:00.000Z",
+					"SHOUR" : 3,
+					"ESRVCC_LATENCY_D" : 739.18,
+					"ESRVCC_LATENCY_W" : 777.74,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-10T20:00:00.000Z",
+					"SHOUR" : 4,
+					"ESRVCC_LATENCY_D" : 745.87,
+					"ESRVCC_LATENCY_W" : 776.90,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-10T21:00:00.000Z",
+					"SHOUR" : 5,
+					"ESRVCC_LATENCY_D" : 792.29,
+					"ESRVCC_LATENCY_W" : 802.47,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-10T22:00:00.000Z",
+					"SHOUR" : 6,
+					"ESRVCC_LATENCY_D" : 781.19,
+					"ESRVCC_LATENCY_W" : 837.37,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-10T23:00:00.000Z",
+					"SHOUR" : 7,
+					"ESRVCC_LATENCY_D" : 815.05,
+					"ESRVCC_LATENCY_W" : 854.66,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T00:00:00.000Z",
+					"SHOUR" : 8,
+					"ESRVCC_LATENCY_D" : 858.67,
+					"ESRVCC_LATENCY_W" : 869.39,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T01:00:00.000Z",
+					"SHOUR" : 9,
+					"ESRVCC_LATENCY_D" : 853.44,
+					"ESRVCC_LATENCY_W" : 878.19,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T02:00:00.000Z",
+					"SHOUR" : 10,
+					"ESRVCC_LATENCY_D" : 862.80,
+					"ESRVCC_LATENCY_W" : 883.40,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T03:00:00.000Z",
+					"SHOUR" : 11,
+					"ESRVCC_LATENCY_D" : 858.98,
+					"ESRVCC_LATENCY_W" : 883.22,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T04:00:00.000Z",
+					"SHOUR" : 12,
+					"ESRVCC_LATENCY_D" : 837.89,
+					"ESRVCC_LATENCY_W" : 874.93,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T05:00:00.000Z",
+					"SHOUR" : 13,
+					"ESRVCC_LATENCY_D" : 847.31,
+					"ESRVCC_LATENCY_W" : 871.28,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T06:00:00.000Z",
+					"SHOUR" : 14,
+					"ESRVCC_LATENCY_D" : 854.10,
+					"ESRVCC_LATENCY_W" : 876.80,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T07:00:00.000Z",
+					"SHOUR" : 15,
+					"ESRVCC_LATENCY_D" : 843.81,
+					"ESRVCC_LATENCY_W" : 874.82,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T08:00:00.000Z",
+					"SHOUR" : 16,
+					"ESRVCC_LATENCY_D" : 863.36,
+					"ESRVCC_LATENCY_W" : 878.80,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T09:00:00.000Z",
+					"SHOUR" : 17,
+					"ESRVCC_LATENCY_D" : 863.64,
+					"ESRVCC_LATENCY_W" : 880.55,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T10:00:00.000Z",
+					"SHOUR" : 18,
+					"ESRVCC_LATENCY_D" : 852.16,
+					"ESRVCC_LATENCY_W" : 875.34,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T11:00:00.000Z",
+					"SHOUR" : 19,
+					"ESRVCC_LATENCY_D" : 839.15,
+					"ESRVCC_LATENCY_W" : 878.77,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T12:00:00.000Z",
+					"SHOUR" : 20,
+					"ESRVCC_LATENCY_D" : 838.88,
+					"ESRVCC_LATENCY_W" : 874.24,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T13:00:00.000Z",
+					"SHOUR" : 21,
+					"ESRVCC_LATENCY_D" : 840.716,
+					"ESRVCC_LATENCY_W" : 863.69,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T14:00:00.000Z",
+					"SHOUR" : 22,
+					"ESRVCC_LATENCY_D" : 832.98,
+					"ESRVCC_LATENCY_W" : 853.38,
+					"THRESHOLD" : 400
+				}, {
+					"SDATE" : "2016-05-11T15:00:00.000Z",
+					"SHOUR" : 23,
+					"ESRVCC_LATENCY_D" : 808.13,
+					"ESRVCC_LATENCY_W" : 840.61,
+					"THRESHOLD" : 400
+				} ], "business.html");
+	}
+
+	function load1() {
+		queryLineChart("V_V_CALL_SETUP_SUCCRATE", "dmChart20", "VoLTE接通率(%)",
+				"%", [ {
+					"SDATE" : "2016-05-10T16:00:00.000Z",
+					"SHOUR" : 0,
+					"CALL_SETUP_SUCCRATE_D" : 25,
+					"CALL_SETUP_SUCCRATE_W" : 42.59,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T17:00:00.000Z",
+					"SHOUR" : 1,
+					"CALL_SETUP_SUCCRATE_D" : 61.04,
+					"CALL_SETUP_SUCCRATE_W" : 69.13,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T18:00:00.000Z",
+					"SHOUR" : 2,
+					"CALL_SETUP_SUCCRATE_D" : 80,
+					"CALL_SETUP_SUCCRATE_W" : 70.59,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T20:00:00.000Z",
+					"SHOUR" : 4,
+					"CALL_SETUP_SUCCRATE_D" : 66.67,
+					"CALL_SETUP_SUCCRATE_W" : 38.89,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T21:00:00.000Z",
+					"SHOUR" : 5,
+					"CALL_SETUP_SUCCRATE_D" : 50,
+					"CALL_SETUP_SUCCRATE_W" : 53.03,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T22:00:00.000Z",
+					"SHOUR" : 6,
+					"CALL_SETUP_SUCCRATE_D" : 44.44,
+					"CALL_SETUP_SUCCRATE_W" : 58.12,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T23:00:00.000Z",
+					"SHOUR" : 7,
+					"CALL_SETUP_SUCCRATE_D" : 50,
+					"CALL_SETUP_SUCCRATE_W" : 61.24,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T00:00:00.000Z",
+					"SHOUR" : 8,
+					"CALL_SETUP_SUCCRATE_D" : 66.96,
+					"CALL_SETUP_SUCCRATE_W" : 73.34,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T01:00:00.000Z",
+					"SHOUR" : 9,
+					"CALL_SETUP_SUCCRATE_D" : 74.3,
+					"CALL_SETUP_SUCCRATE_W" : 81.75,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T02:00:00.000Z",
+					"SHOUR" : 10,
+					"CALL_SETUP_SUCCRATE_D" : 83.03,
+					"CALL_SETUP_SUCCRATE_W" : 80.93,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T03:00:00.000Z",
+					"SHOUR" : 11,
+					"CALL_SETUP_SUCCRATE_D" : 85.56,
+					"CALL_SETUP_SUCCRATE_W" : 84.08,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T04:00:00.000Z",
+					"SHOUR" : 12,
+					"CALL_SETUP_SUCCRATE_D" : 79.08,
+					"CALL_SETUP_SUCCRATE_W" : 66.48,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T05:00:00.000Z",
+					"SHOUR" : 13,
+					"CALL_SETUP_SUCCRATE_D" : 70.53,
+					"CALL_SETUP_SUCCRATE_W" : 75.84,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T06:00:00.000Z",
+					"SHOUR" : 14,
+					"CALL_SETUP_SUCCRATE_D" : 85.12,
+					"CALL_SETUP_SUCCRATE_W" : 80.24,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T07:00:00.000Z",
+					"SHOUR" : 15,
+					"CALL_SETUP_SUCCRATE_D" : 82.89,
+					"CALL_SETUP_SUCCRATE_W" : 82.21,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T08:00:00.000Z",
+					"SHOUR" : 16,
+					"CALL_SETUP_SUCCRATE_D" : 79.05,
+					"CALL_SETUP_SUCCRATE_W" : 85.78,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T09:00:00.000Z",
+					"SHOUR" : 17,
+					"CALL_SETUP_SUCCRATE_D" : 76.5,
+					"CALL_SETUP_SUCCRATE_W" : 81.41,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T10:00:00.000Z",
+					"SHOUR" : 18,
+					"CALL_SETUP_SUCCRATE_D" : 68.97,
+					"CALL_SETUP_SUCCRATE_W" : 73.8,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T11:00:00.000Z",
+					"SHOUR" : 19,
+					"CALL_SETUP_SUCCRATE_D" : 74.56,
+					"CALL_SETUP_SUCCRATE_W" : 73.83,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T12:00:00.000Z",
+					"SHOUR" : 20,
+					"CALL_SETUP_SUCCRATE_D" : 65.05,
+					"CALL_SETUP_SUCCRATE_W" : 71.47,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T13:00:00.000Z",
+					"SHOUR" : 21,
+					"CALL_SETUP_SUCCRATE_D" : 75,
+					"CALL_SETUP_SUCCRATE_W" : 62.54,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T14:00:00.000Z",
+					"SHOUR" : 22,
+					"CALL_SETUP_SUCCRATE_D" : 71.43,
+					"CALL_SETUP_SUCCRATE_W" : 54.31,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T15:00:00.000Z",
+					"SHOUR" : 23,
+					"CALL_SETUP_SUCCRATE_D" : 50,
+					"CALL_SETUP_SUCCRATE_W" : 59.09,
+					"THRESHOLD" : 95
+				} ], "business.html");
+		queryLineChart("V_V_CALL_SETUP_LATENCY", "dmChart21", "VoLTE呼叫建立时延(s)",
+				"s", [ {
+					"SDATE" : "2016-05-10T16:00:00.000Z",
+					"SHOUR" : 0,
+					"CALL_SETUP_LATENCY_D" : 8.47,
+					"CALL_SETUP_LATENCY_W" : 3.71,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T17:00:00.000Z",
+					"SHOUR" : 1,
+					"CALL_SETUP_LATENCY_D" : 2.84,
+					"CALL_SETUP_LATENCY_W" : 2.56,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T18:00:00.000Z",
+					"SHOUR" : 2,
+					"CALL_SETUP_LATENCY_D" : 3.04,
+					"CALL_SETUP_LATENCY_W" : 2.61,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T20:00:00.000Z",
+					"SHOUR" : 4,
+					"CALL_SETUP_LATENCY_D" : 2.35,
+					"CALL_SETUP_LATENCY_W" : 3.51,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T21:00:00.000Z",
+					"SHOUR" : 5,
+					"CALL_SETUP_LATENCY_D" : 6.35,
+					"CALL_SETUP_LATENCY_W" : 4.56,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T22:00:00.000Z",
+					"SHOUR" : 6,
+					"CALL_SETUP_LATENCY_D" : 5.32,
+					"CALL_SETUP_LATENCY_W" : 4.56,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-10T23:00:00.000Z",
+					"SHOUR" : 7,
+					"CALL_SETUP_LATENCY_D" : 2.58,
+					"CALL_SETUP_LATENCY_W" : 4.26,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T00:00:00.000Z",
+					"SHOUR" : 8,
+					"CALL_SETUP_LATENCY_D" : 3.47,
+					"CALL_SETUP_LATENCY_W" : 3.26,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T01:00:00.000Z",
+					"SHOUR" : 9,
+					"CALL_SETUP_LATENCY_D" : 2.81,
+					"CALL_SETUP_LATENCY_W" : 2.35,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T02:00:00.000Z",
+					"SHOUR" : 10,
+					"CALL_SETUP_LATENCY_D" : 2.48,
+					"CALL_SETUP_LATENCY_W" : 2.35,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T03:00:00.000Z",
+					"SHOUR" : 11,
+					"CALL_SETUP_LATENCY_D" : 2.28,
+					"CALL_SETUP_LATENCY_W" : 2.29,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T04:00:00.000Z",
+					"SHOUR" : 12,
+					"CALL_SETUP_LATENCY_D" : 3,
+					"CALL_SETUP_LATENCY_W" : 2.79,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T05:00:00.000Z",
+					"SHOUR" : 13,
+					"CALL_SETUP_LATENCY_D" : 2.98,
+					"CALL_SETUP_LATENCY_W" : 2.61,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T06:00:00.000Z",
+					"SHOUR" : 14,
+					"CALL_SETUP_LATENCY_D" : 2.55,
+					"CALL_SETUP_LATENCY_W" : 2.5,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T07:00:00.000Z",
+					"SHOUR" : 15,
+					"CALL_SETUP_LATENCY_D" : 2.21,
+					"CALL_SETUP_LATENCY_W" : 2.22,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T08:00:00.000Z",
+					"SHOUR" : 16,
+					"CALL_SETUP_LATENCY_D" : 2.2,
+					"CALL_SETUP_LATENCY_W" : 2.21,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T09:00:00.000Z",
+					"SHOUR" : 17,
+					"CALL_SETUP_LATENCY_D" : 2.19,
+					"CALL_SETUP_LATENCY_W" : 2.25,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T10:00:00.000Z",
+					"SHOUR" : 18,
+					"CALL_SETUP_LATENCY_D" : 2.96,
+					"CALL_SETUP_LATENCY_W" : 2.79,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T11:00:00.000Z",
+					"SHOUR" : 19,
+					"CALL_SETUP_LATENCY_D" : 2.9,
+					"CALL_SETUP_LATENCY_W" : 2.85,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T12:00:00.000Z",
+					"SHOUR" : 20,
+					"CALL_SETUP_LATENCY_D" : 4.81,
+					"CALL_SETUP_LATENCY_W" : 3.36,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T13:00:00.000Z",
+					"SHOUR" : 21,
+					"CALL_SETUP_LATENCY_D" : 3.99,
+					"CALL_SETUP_LATENCY_W" : 4.18,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T14:00:00.000Z",
+					"SHOUR" : 22,
+					"CALL_SETUP_LATENCY_D" : 4.75,
+					"CALL_SETUP_LATENCY_W" : 4.01,
+					"THRESHOLD" : 5
+				}, {
+					"SDATE" : "2016-05-11T15:00:00.000Z",
+					"SHOUR" : 23,
+					"CALL_SETUP_LATENCY_D" : 3.66,
+					"CALL_SETUP_LATENCY_W" : 4.05,
+					"THRESHOLD" : 5
+				} ], "business.html");
+		queryLineChart("V_V_CALL_DROP_RATE", "dmChart22", "VoLTE掉话率(%)", "%", [
+				{
+					"SDATE" : "2016-05-10T16:00:00.000Z",
+					"SHOUR" : 0,
+					"CALL_DROP_RATE_D" : 0,
+					"CALL_DROP_RATE_W" : 2.56,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-10T17:00:00.000Z",
+					"SHOUR" : 1,
+					"CALL_DROP_RATE_D" : 0,
+					"CALL_DROP_RATE_W" : 3.8,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-10T18:00:00.000Z",
+					"SHOUR" : 2,
+					"CALL_DROP_RATE_D" : 0,
+					"CALL_DROP_RATE_W" : 5.26,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-10T19:00:00.000Z",
+					"SHOUR" : 3,
+					"CALL_DROP_RATE_D" : 0,
+					"CALL_DROP_RATE_W" : 0,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-10T20:00:00.000Z",
+					"SHOUR" : 4,
+					"CALL_DROP_RATE_D" : 0,
+					"CALL_DROP_RATE_W" : 0,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-10T21:00:00.000Z",
+					"SHOUR" : 5,
+					"CALL_DROP_RATE_D" : 14.29,
+					"CALL_DROP_RATE_W" : 6.12,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-10T22:00:00.000Z",
+					"SHOUR" : 6,
+					"CALL_DROP_RATE_D" : 29.41,
+					"CALL_DROP_RATE_W" : 5.66,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-10T23:00:00.000Z",
+					"SHOUR" : 7,
+					"CALL_DROP_RATE_D" : 3.13,
+					"CALL_DROP_RATE_W" : 1.7,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T00:00:00.000Z",
+					"SHOUR" : 8,
+					"CALL_DROP_RATE_D" : 0,
+					"CALL_DROP_RATE_W" : 2.21,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T01:00:00.000Z",
+					"SHOUR" : 9,
+					"CALL_DROP_RATE_D" : 2.92,
+					"CALL_DROP_RATE_W" : 1.65,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T02:00:00.000Z",
+					"SHOUR" : 10,
+					"CALL_DROP_RATE_D" : 1.49,
+					"CALL_DROP_RATE_W" : 1.06,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T03:00:00.000Z",
+					"SHOUR" : 11,
+					"CALL_DROP_RATE_D" : 1.67,
+					"CALL_DROP_RATE_W" : 1.26,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T04:00:00.000Z",
+					"SHOUR" : 12,
+					"CALL_DROP_RATE_D" : 3.13,
+					"CALL_DROP_RATE_W" : 1.49,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T05:00:00.000Z",
+					"SHOUR" : 13,
+					"CALL_DROP_RATE_D" : 0,
+					"CALL_DROP_RATE_W" : 1.46,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T06:00:00.000Z",
+					"SHOUR" : 14,
+					"CALL_DROP_RATE_D" : 1.16,
+					"CALL_DROP_RATE_W" : 1.63,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T07:00:00.000Z",
+					"SHOUR" : 15,
+					"CALL_DROP_RATE_D" : 1.49,
+					"CALL_DROP_RATE_W" : 1.28,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T08:00:00.000Z",
+					"SHOUR" : 16,
+					"CALL_DROP_RATE_D" : 1.01,
+					"CALL_DROP_RATE_W" : 0.62,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T09:00:00.000Z",
+					"SHOUR" : 17,
+					"CALL_DROP_RATE_D" : 0.38,
+					"CALL_DROP_RATE_W" : 0.81,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T10:00:00.000Z",
+					"SHOUR" : 18,
+					"CALL_DROP_RATE_D" : 3.62,
+					"CALL_DROP_RATE_W" : 1.71,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T11:00:00.000Z",
+					"SHOUR" : 19,
+					"CALL_DROP_RATE_D" : 1.33,
+					"CALL_DROP_RATE_W" : 2.16,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T12:00:00.000Z",
+					"SHOUR" : 20,
+					"CALL_DROP_RATE_D" : 2.6,
+					"CALL_DROP_RATE_W" : 2.71,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T13:00:00.000Z",
+					"SHOUR" : 21,
+					"CALL_DROP_RATE_D" : 5.17,
+					"CALL_DROP_RATE_W" : 4.15,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T14:00:00.000Z",
+					"SHOUR" : 22,
+					"CALL_DROP_RATE_D" : 8.82,
+					"CALL_DROP_RATE_W" : 4.19,
+					"THRESHOLD" : 0.50
+				}, {
+					"SDATE" : "2016-05-11T15:00:00.000Z",
+					"SHOUR" : 23,
+					"CALL_DROP_RATE_D" : 0,
+					"CALL_DROP_RATE_W" : 1.41,
+					"THRESHOLD" : 0.50
+				} ], "business.html");
+		queryLineChart("V_V_JITTER_VALUE", "dmChart23", "抖动", "", [ {
+			"SDATE" : "2016-05-10T23:00:00.000Z",
+			"SHOUR" : 7,
+			"JITTER_D" : 72.5,
+			"JITTER_W" : 45.38,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T00:00:00.000Z",
+			"SHOUR" : 8,
+			"JITTER_D" : 40.75,
+			"JITTER_W" : 67.16,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T01:00:00.000Z",
+			"SHOUR" : 9,
+			"JITTER_D" : 26.33,
+			"JITTER_W" : 76.79,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T02:00:00.000Z",
+			"SHOUR" : 10,
+			"JITTER_D" : 79.4,
+			"JITTER_W" : 81.52,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T03:00:00.000Z",
+			"SHOUR" : 11,
+			"JITTER_D" : 115.33,
+			"JITTER_W" : 73.44,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T05:00:00.000Z",
+			"SHOUR" : 13,
+			"JITTER_D" : 14.5,
+			"JITTER_W" : 125.65,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T06:00:00.000Z",
+			"SHOUR" : 14,
+			"JITTER_D" : 64.67,
+			"JITTER_W" : 73.14,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T07:00:00.000Z",
+			"SHOUR" : 15,
+			"JITTER_D" : 32.67,
+			"JITTER_W" : 99.23,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T08:00:00.000Z",
+			"SHOUR" : 16,
+			"JITTER_D" : 127.71,
+			"JITTER_W" : 88.07,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T09:00:00.000Z",
+			"SHOUR" : 17,
+			"JITTER_D" : 404.72,
+			"JITTER_W" : 87.62,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T10:00:00.000Z",
+			"SHOUR" : 18,
+			"JITTER_D" : 84,
+			"JITTER_W" : 62.69,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T11:00:00.000Z",
+			"SHOUR" : 19,
+			"JITTER_D" : 18,
+			"JITTER_W" : 45.62,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T12:00:00.000Z",
+			"SHOUR" : 20,
+			"JITTER_D" : 14.33,
+			"JITTER_W" : 94.89,
+			"THRESHOLD" : 20
+		}, {
+			"SDATE" : "2016-05-11T14:00:00.000Z",
+			"SHOUR" : 22,
+			"JITTER_D" : 5.67,
+			"JITTER_W" : 171.23,
+			"THRESHOLD" : 20
+		} ], "business.html");
+		queryLineChart("V_V_esrvcc_succrate", "dmChart24", "eSRVCC切换成功率(%)",
+				"%", [ {
+					"SDATE" : "2016-05-10T16:00:00.000Z",
+					"SHOUR" : 0,
+					"ESRVCC_SUCCRATE_D" : 93.8,
+					"ESRVCC_SUCCRATE_W" : 75.32,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T17:00:00.000Z",
+					"SHOUR" : 1,
+					"ESRVCC_SUCCRATE_D" : 84.71,
+					"ESRVCC_SUCCRATE_W" : 77.4,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T18:00:00.000Z",
+					"SHOUR" : 2,
+					"ESRVCC_SUCCRATE_D" : 81.97,
+					"ESRVCC_SUCCRATE_W" : 88.74,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T19:00:00.000Z",
+					"SHOUR" : 3,
+					"ESRVCC_SUCCRATE_D" : 90,
+					"ESRVCC_SUCCRATE_W" : 79.51,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T20:00:00.000Z",
+					"SHOUR" : 4,
+					"ESRVCC_SUCCRATE_D" : 86.89,
+					"ESRVCC_SUCCRATE_W" : 83.63,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T21:00:00.000Z",
+					"SHOUR" : 5,
+					"ESRVCC_SUCCRATE_D" : 71.11,
+					"ESRVCC_SUCCRATE_W" : 69.56,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T22:00:00.000Z",
+					"SHOUR" : 6,
+					"ESRVCC_SUCCRATE_D" : 81.09,
+					"ESRVCC_SUCCRATE_W" : 80.92,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-10T23:00:00.000Z",
+					"SHOUR" : 7,
+					"ESRVCC_SUCCRATE_D" : 85.06,
+					"ESRVCC_SUCCRATE_W" : 81.57,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T00:00:00.000Z",
+					"SHOUR" : 8,
+					"ESRVCC_SUCCRATE_D" : 45.15,
+					"ESRVCC_SUCCRATE_W" : 71.22,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T01:00:00.000Z",
+					"SHOUR" : 9,
+					"ESRVCC_SUCCRATE_D" : 56.79,
+					"ESRVCC_SUCCRATE_W" : 79.62,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T02:00:00.000Z",
+					"SHOUR" : 10,
+					"ESRVCC_SUCCRATE_D" : 87.04,
+					"ESRVCC_SUCCRATE_W" : 85.19,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T03:00:00.000Z",
+					"SHOUR" : 11,
+					"ESRVCC_SUCCRATE_D" : 84.03,
+					"ESRVCC_SUCCRATE_W" : 83.34,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T04:00:00.000Z",
+					"SHOUR" : 12,
+					"ESRVCC_SUCCRATE_D" : 83.37,
+					"ESRVCC_SUCCRATE_W" : 83.86,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T05:00:00.000Z",
+					"SHOUR" : 13,
+					"ESRVCC_SUCCRATE_D" : 87.17,
+					"ESRVCC_SUCCRATE_W" : 83.55,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T06:00:00.000Z",
+					"SHOUR" : 14,
+					"ESRVCC_SUCCRATE_D" : 84.38,
+					"ESRVCC_SUCCRATE_W" : 85.71,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T07:00:00.000Z",
+					"SHOUR" : 15,
+					"ESRVCC_SUCCRATE_D" : 88.36,
+					"ESRVCC_SUCCRATE_W" : 85.22,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T08:00:00.000Z",
+					"SHOUR" : 16,
+					"ESRVCC_SUCCRATE_D" : 89.21,
+					"ESRVCC_SUCCRATE_W" : 85.5,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T09:00:00.000Z",
+					"SHOUR" : 17,
+					"ESRVCC_SUCCRATE_D" : 83.86,
+					"ESRVCC_SUCCRATE_W" : 84.38,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T10:00:00.000Z",
+					"SHOUR" : 18,
+					"ESRVCC_SUCCRATE_D" : 85.12,
+					"ESRVCC_SUCCRATE_W" : 84.92,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T11:00:00.000Z",
+					"SHOUR" : 19,
+					"ESRVCC_SUCCRATE_D" : 84.65,
+					"ESRVCC_SUCCRATE_W" : 80.4,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T12:00:00.000Z",
+					"SHOUR" : 20,
+					"ESRVCC_SUCCRATE_D" : 84.1,
+					"ESRVCC_SUCCRATE_W" : 72.71,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T13:00:00.000Z",
+					"SHOUR" : 21,
+					"ESRVCC_SUCCRATE_D" : 79.59,
+					"ESRVCC_SUCCRATE_W" : 78.75,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T14:00:00.000Z",
+					"SHOUR" : 22,
+					"ESRVCC_SUCCRATE_D" : 89.87,
+					"ESRVCC_SUCCRATE_W" : 77.49,
+					"THRESHOLD" : 95
+				}, {
+					"SDATE" : "2016-05-11T15:00:00.000Z",
+					"SHOUR" : 23,
+					"ESRVCC_SUCCRATE_D" : 89.29,
+					"ESRVCC_SUCCRATE_W" : 47.68,
+					"THRESHOLD" : 95
+				} ], "business.html");
+		queryLineChart("V_V_esrvcc_latency", "dmChart25", "eSRVCC切换时长(ms)",
+				"ms", [ {
+					"SDATE" : "2016-05-10T16:00:00.000Z",
+					"SHOUR" : 0,
+					"ESRVCC_LATENCY_D" : 1008.31,
+					"ESRVCC_LATENCY_W" : 1028.33,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-10T17:00:00.000Z",
+					"SHOUR" : 1,
+					"ESRVCC_LATENCY_D" : 1235.56,
+					"ESRVCC_LATENCY_W" : 1047.93,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-10T18:00:00.000Z",
+					"SHOUR" : 2,
+					"ESRVCC_LATENCY_D" : 1029.96,
+					"ESRVCC_LATENCY_W" : 1025.25,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-10T19:00:00.000Z",
+					"SHOUR" : 3,
+					"ESRVCC_LATENCY_D" : 1085.53,
+					"ESRVCC_LATENCY_W" : 1075.47,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-10T20:00:00.000Z",
+					"SHOUR" : 4,
+					"ESRVCC_LATENCY_D" : 1167.02,
+					"ESRVCC_LATENCY_W" : 1084.94,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-10T21:00:00.000Z",
+					"SHOUR" : 5,
+					"ESRVCC_LATENCY_D" : 1150.37,
+					"ESRVCC_LATENCY_W" : 1127.13,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-10T22:00:00.000Z",
+					"SHOUR" : 6,
+					"ESRVCC_LATENCY_D" : 1126.58,
+					"ESRVCC_LATENCY_W" : 1118.01,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-10T23:00:00.000Z",
+					"SHOUR" : 7,
+					"ESRVCC_LATENCY_D" : 1144.44,
+					"ESRVCC_LATENCY_W" : 1099.12,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T00:00:00.000Z",
+					"SHOUR" : 8,
+					"ESRVCC_LATENCY_D" : 1126.13,
+					"ESRVCC_LATENCY_W" : 1093.07,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T01:00:00.000Z",
+					"SHOUR" : 9,
+					"ESRVCC_LATENCY_D" : 1096.27,
+					"ESRVCC_LATENCY_W" : 1088.67,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T02:00:00.000Z",
+					"SHOUR" : 10,
+					"ESRVCC_LATENCY_D" : 1127.76,
+					"ESRVCC_LATENCY_W" : 1095.45,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T03:00:00.000Z",
+					"SHOUR" : 11,
+					"ESRVCC_LATENCY_D" : 1120.44,
+					"ESRVCC_LATENCY_W" : 1096.84,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T04:00:00.000Z",
+					"SHOUR" : 12,
+					"ESRVCC_LATENCY_D" : 1121.54,
+					"ESRVCC_LATENCY_W" : 1105.23,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T05:00:00.000Z",
+					"SHOUR" : 13,
+					"ESRVCC_LATENCY_D" : 1118.48,
+					"ESRVCC_LATENCY_W" : 1091.86,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T06:00:00.000Z",
+					"SHOUR" : 14,
+					"ESRVCC_LATENCY_D" : 1121.03,
+					"ESRVCC_LATENCY_W" : 1083.02,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T07:00:00.000Z",
+					"SHOUR" : 15,
+					"ESRVCC_LATENCY_D" : 1109.52,
+					"ESRVCC_LATENCY_W" : 1089.87,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T08:00:00.000Z",
+					"SHOUR" : 16,
+					"ESRVCC_LATENCY_D" : 1105.84,
+					"ESRVCC_LATENCY_W" : 1092.41,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T09:00:00.000Z",
+					"SHOUR" : 17,
+					"ESRVCC_LATENCY_D" : 1108.81,
+					"ESRVCC_LATENCY_W" : 1090.49,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T10:00:00.000Z",
+					"SHOUR" : 18,
+					"ESRVCC_LATENCY_D" : 1087.02,
+					"ESRVCC_LATENCY_W" : 1103.53,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T11:00:00.000Z",
+					"SHOUR" : 19,
+					"ESRVCC_LATENCY_D" : 1133.03,
+					"ESRVCC_LATENCY_W" : 1110.46,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T12:00:00.000Z",
+					"SHOUR" : 20,
+					"ESRVCC_LATENCY_D" : 1110.14,
+					"ESRVCC_LATENCY_W" : 1105.14,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T13:00:00.000Z",
+					"SHOUR" : 21,
+					"ESRVCC_LATENCY_D" : 1121.56,
+					"ESRVCC_LATENCY_W" : 1085.94,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T14:00:00.000Z",
+					"SHOUR" : 22,
+					"ESRVCC_LATENCY_D" : 1069.6,
+					"ESRVCC_LATENCY_W" : 1050.87,
+					"THRESHOLD" : 300
+				}, {
+					"SDATE" : "2016-05-11T15:00:00.000Z",
+					"SHOUR" : 23,
+					"ESRVCC_LATENCY_D" : 1032.23,
+					"ESRVCC_LATENCY_W" : 1010.52,
+					"THRESHOLD" : 300
+				} ], "business.html");
+	}
+
+	function queryNum(table, htmlid, unit, data) {
+		if (data.length > 0) {
+			for ( var key in data[0]) {
+				if (key != "SDATE") {
+					$('#' + htmlid).html(data + unit);
+				}
+			}
+		}
+	}
+
+	function queryLineChart(table, htmlid, title, unit, data, url) {
+		drawLineChart(htmlid, title, unit, parseLineChartSrcData(data), url);
+	}
+
+	function drawLineChart(htmlid, title, unit, data, url) {
+		var colors = [ '#32A88C', '#4F81BD', '#E46C0A' ];
+		$('#' + htmlid)
+				.highcharts(
+						{
+							chart : {
+								events : {
+									click : function(e) {
+										if (url) {
+											window.open(url, '_blank');
+										}
+										;
+									}
+								}
+							},
+							title : {
+								text : title,
+								style : {
+									fontFamily : "微软雅黑"
+								}
+							},
+							xAxis : {
+								tickInterval : 2,
+								categories : data[0],
+								labels : {
+									style : {
+										fontFamily : "微软雅黑"
+									}
+								}
+							},
+							yAxis : [ {
+								title : null,
+								max : data[4],
+								min : data[5],
+								labels : {
+									style : {
+										fontFamily : "微软雅黑"
+									},
+									formatter : function() {
+										return this.value + unit
+									}
+								}
+							} ],
+							legend : {
+								enabled : false,
+								itemStyle : {
+									fontFamily : "微软雅黑"
+								}
+							},
+							tooltip : {
+								headerFormat : '<span style="font-size:10px">{point.key}</span><table>',
+								pointFormat : '<tr><td style="color:{series.color};padding:0">{series.name}: </td>'
+										+ '<td style="padding:0"><b>{point.y:.2f} '
+										+ unit + '</b></td></tr>',
+								footerFormat : '</table>',
+								shared : true,
+								useHTML : true,
+								style : {
+									fontFamily : "微软雅黑"
+								}
+							},
+							plotOptions : {
+								series : {
+									marker : {
+										enabled : false,
+									}
+								}
+							},
+							series : [ {
+								name : '当天',
+								color : colors[0],
+								data : data[1]
+							}, {
+								name : '一周平均',
+								color : colors[1],
+								data : data[2]
+							}, {
+								name : '预警值',
+								color : colors[2],
+								dashStyle : 'dash',
+								data : data[3]
+							} ]
+						});
+	}
+
+	function drawPieChart(htmlid, title, serie, data, url) {
+		$('#' + htmlid).highcharts(
+				{
+					chart : {
+						plotBackgroundColor : null,
+						plotBorderWidth : null,
+						plotShadow : false,
+						events : {
+							click : function(e) {
+								if (url) {
+									window.open(url, '_blank');
+								}
+								;
+							}
+						}
+					},
+					title : {
+						text : title,
+						style : {
+							fontFamily : "微软雅黑"
+						}
+					},
+					legend : {
+						layout : 'vertical',
+						align : 'right',
+						verticalAlign : 'middle',
+						borderWidth : 0,
+						itemStyle : {
+							fontFamily : "微软雅黑"
+						}
+					},
+					tooltip : {
+						//pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+						pointFormat : '{series.name}: <b>{point.y}</b>',
+						style : {
+							fontFamily : "微软雅黑"
+						}
+					},
+					plotOptions : {
+						pie : {
+							allowPointSelect : true,
+							cursor : 'pointer',
+							dataLabels : {
+								enabled : false
+							},
+							showInLegend : true
+						}
+					},
+					series : [ {
+						type : 'pie',
+						name : serie,
+						dataLabels : {
+							formatter : function() {
+								return this.y > 1 ? '<b>' + this.point.name
+										+ ': '
+										+ this.point.percentage.toFixed(2)
+										+ ' %</b>' : null;
+							}
+						},
+						data : data
+					} ]
+				});
+	}
+
+	function parseLineChartSrcData(data) {
+		var xArr = [];
+		var y1Arr = [];
+		var y2Arr = [];
+		var y3Arr = [];
+		var colList = [];
+		var max = null;
+		var min = null;
+		if (data.length > 0) {
+			for ( var key in data[0]) {
+				colList[colList.length] = key;
+			}
+			for (var i = 0; i < data.length; i++) {
+				xArr[xArr.length] = data[i][colList[1]];
+				y1Arr[y1Arr.length] = data[i][colList[2]];
+				y2Arr[y2Arr.length] = data[i][colList[3]];
+				y3Arr[y3Arr.length] = data[i][colList[4]];
+			}
+		}
+		for (var i = 0; i < y1Arr.length; i++) {
+			if (max == null) {
+				max = y1Arr[i];
+			}
+			if (min == null) {
+				min = y1Arr[i];
+			}
+			if (max < y1Arr[i]) {
+				max = y1Arr[i];
+			}
+			if (min > y1Arr[i]) {
+				min = y1Arr[i];
+			}
+		}
+		for (var i = 0; i < y2Arr.length; i++) {
+			if (max == null) {
+				max = y2Arr[i];
+			}
+			if (min == null) {
+				min = y2Arr[i];
+			}
+			if (max < y2Arr[i]) {
+				max = y2Arr[i];
+			}
+			if (min > y2Arr[i]) {
+				min = y2Arr[i];
+			}
+		}
+		for (var i = 0; i < y3Arr.length; i++) {
+			if (max == null) {
+				max = y3Arr[i];
+			}
+			if (min == null) {
+				min = y3Arr[i];
+			}
+			if (max < y3Arr[i]) {
+				max = y3Arr[i];
+			}
+			if (min > y3Arr[i]) {
+				min = y3Arr[i];
+			}
+		}
+		var result = [ xArr, y1Arr, y2Arr, y3Arr, max, min ];
+		//alert(JSON.stringify(result));
+		return result;
+	}
+</script>

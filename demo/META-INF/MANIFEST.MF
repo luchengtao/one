@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Demo
+Bundle-SymbolicName: demo
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Activator: demo.demoActivator
+Import-Package: org.osgi.framework;version="1.8.0"
+Require-Bundle: com.nsn.logger;bundle-version="1.0.0",
+ com.nsn.web;bundle-version="1.0.0",
+ com.nsn.scheduler;bundle-version="1.0.0",
+ com.nsn.web.lte;bundle-version="1.0.0"
+Bundle-ClassPath: bin/,
+ .,
+ WebRoot/

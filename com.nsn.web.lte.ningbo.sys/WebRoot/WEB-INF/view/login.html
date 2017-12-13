@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>${(res.title)!'LTEDO'}</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<!-- Bootstrap 3.3.7 -->
+<link rel="stylesheet" href="${ctx}/static/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.min.css">
+<style type="text/css">
+    .login-logo {
+        font-size: 35px;
+        text-align: center;
+        margin-bottom: 35px;
+        font-weight: 300;
+    }
+    .login-logo a, .register-logo a {
+        color: #444
+    }
+    .login-page {
+        background: #01518E url(static/img/${(res.bgpic)!});
+        background-attachment: fixed; /* 必须地，防抖动 */
+        -webkit-background-size:cover;
+        background-size:cover;
+    }
+    .login-box{
+        width: 380px;
+        margin: 5% auto
+    }
+    @media (max-width: 768px) {
+        .login-box{
+            width: 90%;
+            margin-top: 20px
+        }
+    }
+    .login-box-body{
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-top: 0;
+        color: #666;
+        border-radius: 5px;
+        border:1px solid #fff;
+    }
+    .login-box-body .form-control-feedback, .register-box-body .form-control-feedback {
+        color: #777
+    }
+    .login-box-msg {
+        margin: 0;
+        text-align: center;
+        padding: 0 20px 20px 20px;
+        margin-top: -55px;
+    }
+    .error {
+        color: #e35b5a;
+    }
+</style>
+<script src="${ctx}/static/plugins/jquery/jquery-3.2.1.min.js"></script>
+<!--[if lt IE 9]>
+<script src="${ctx}/static/plugins/html5/html5shiv.min.js"></script>
+<script src="${ctx}/static/plugins/html5/respond.min.js"></script>
+<![endif]-->
+</head>
+<body class="hold-transition login-page">
+
+<div class="login-box">
+    <div class="login-logo">
+        <img src="static/img/${(res.logobig)!}" >
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg"><img class="img-circle img-thumbnail" src="static/img/userHead.jpg"></p>
+		<div id="inputField">
+        	<form id="loginForm">
+        		<input id="city" name="city" type="hidden">
+	            <div class="form-group has-feedback">
+	                <input id="account" name="account" type="text" class="form-control" placeholder="用户名">
+	                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+	            </div>
+	            <div class="form-group has-feedback">
+	                <input id='passwd' name="passwd" type="password" class="form-control" placeholder="密码">
+	                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+	            </div>
+	        
+	        </form>
+            <div class="row">
+                <div class="col-xs-9">
+					<span style="height: 34px;line-height: 34px;">使用Chrome浏览器平台性能更佳！</span>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-3">
+                    <button id="btnLogin" name="btnLogin" onclick="login()" class="btn btn-success btn-block btn-flat">登 录</button>
+                </div>
+                <!-- /.col -->
+            </div>
+            <p id="login_error" class="error text-center" style="margin:10px 0 0 0">${msg!''}</p>
+        </div>
+        <div id="loading" style="margin:0 80px 0 80px;display:none;">
+        	<p class="text-center"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></p>
+        </div>
+		<!--<div id="cityList" style="margin:0 80px 0 80px;"></div>-->
+		<div id="editDefaultPasswd" style="margin:0 40px 0 30px;display:none;" >
+			<p class="text-center">首次登陆请修改默认密码</p>
+			<form id="editDefaultPasswdForm" class="form-horizontal">
+        		<input id="account_2" name="account" type="hidden">
+        		<div class="form-group">
+					<label for="passwd1" class="col-sm-3 control-label" style="padding-right:0px">新密码</label>
+					<div class="col-sm-9">
+						<input type="password" class="form-control" id="passwd1" name="passwd" placeholder="新密码">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="passwd2" class="col-sm-3 control-label" style="padding-right:0px">确认密码</label>
+					<div class="col-sm-9">
+						<input type="password" class="form-control" id="passwd2" placeholder="确认密码">
+					</div>
+				</div>
+				<p class="text-center error" id="editDefaultPasswdError"></p>
+				<div class="row">
+					<a href="javascript:editDefaultPasswd()" class="btn btn-success btn-flat col-sm-4 col-sm-offset-2">确认</a>
+					<a href="/sys/login" class="btn btn-default btn-flat col-sm-4 col-sm-offset-1">返回</a>
+	        	</div>
+	        </form>
+		</div>
+    </div>
+    <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
+
+
+
+</body>
+<script>
+	$(function(){
+		$("body").keydown(function() {
+		    if (event.keyCode == "13") {//keyCode=13是回车键
+				login();
+		    }
+		});
+	});
+	
+	function login(){
+		$("#inputField").hide();
+		$("#loading").show();
+		$.ajax({
+			type: "POST",
+			url:"/sys/login/login",
+			data:$("#loginForm").serialize(),
+			dataType:'json',
+		    success: function(data) {
+		    	console.log(data);
+		    	$("#loading").hide();
+		    	if(data.isOk){
+		    		window.location.href="/sys/login";
+		    	}else if(data.modifyPwd){
+		    		$("#account_2").val($("#account").val());
+		    		$("#editDefaultPasswd").show();
+		    	/*
+		    	}else if(data.cityList!=null){
+		    		$("#cityList").html('');
+		    		$.each(data.cityList,function(index,obj){
+	    				var $cityBtn = $("<button type='button' onclick='city(\""+obj.city_id+"\")'></button>")
+	    				$cityBtn.addClass('btn btn-default btn-xs btn-block');
+	    				$cityBtn.html(obj.city_cn);
+	    				$("#cityList").append($cityBtn);
+	    			});
+	    			$("#cityList").append('<br><p class="text-center">请选择城市</p>');
+		    	*/
+		    	}else{
+	    			$("#inputField").show();
+	    			$("#login_error").html(data.msg);
+	    		}
+		    }
+		});
+	}
+	function editDefaultPasswd(){
+		var passwd1 = $('#passwd1').val();
+		var passwd2 = $('#passwd2').val();
+		$("#editDefaultPasswdError").html('');
+		if(passwd1 || passwd2){
+			if((passwd1 == passwd2)){
+				if(!/^(?=.{8,})(?=.*[a-z])(?=.*[0-9]).*$/.test(passwd1)){
+					$("#editDefaultPasswdError").html('密码长度至少8位,须同时包含数字、字母');
+					return;
+				}
+				$("#editDefaultPasswd").hide();
+				$("#loading").show();
+				$.ajax({
+					type: "POST",
+					url:'/sys/login/editDefaultPasswd',
+					data:$('#editDefaultPasswdForm').serialize(),// 你的formid
+					dataType:'json',
+				    success: function(data) {
+				    	$("#loading").hide();
+				    	$("#inputField").show();
+				    	if(data.isOk){
+				    		$('#login_error').html('修改成功，请使用新密码登录');
+				    	}else{
+				    		$('#login_error').html(data.msg);
+				    	}
+				    }
+				});
+			}else{
+				$("#editDefaultPasswdError").html('两次输入的新密码不一致，请重新输入！');
+			}
+		}else{
+			$("#editDefaultPasswdError").html('密码不能为空，请输入密码！');
+		}
+	}
+	/*
+	function city(city_id){
+		$("#city").val(city_id);
+		login();
+	}
+	*/
+</script>
+</html>

@@ -1,0 +1,158 @@
+<#include "/base.html"/>
+<@layout>
+<section class="content-header bg-currency">
+	<ol class="breadcrumb pull-left"><li>基站扇区维护</li></ol>
+	<form class="navbar-form pull-left" role="search" id="searchForm">
+		<div class="form-group">
+			<label for="name_or_account">CELL_ID:</label>
+			<input type="text" class="form-control" id="sch_LIKE_cell_id" name="sch_LIKE_cell_id">
+		</div>
+		<div class="form-group">
+			<label for="name_or_account">小区名:</label>
+			<input type="text" class="form-control" id="sch_LIKE_cell_name" name="sch_LIKE_cell_name">
+		</div>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="#" id="cell_query" class="btn btn-success btn-sm">查询</a>&nbsp;&nbsp;
+        <a href="#" id="cell_import" class="btn btn-success btn-sm">导入</a>&nbsp;&nbsp;
+		<a href="#" id="cell_add" class="btn btn-success btn-sm">添加</a>&nbsp;&nbsp;
+		<a href="#" id="cell_clear" class="btn btn-success btn-sm">清空</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a id="download" href="static/template/Cell_import_template.xls" class="btn btn-success btn-sm">导入模板下载</a>
+	</form>
+</section>
+<section class="content-fluid">
+	<table id="page_table" class="table table-striped table-bordered dt-responsive nowrap bg-currency"  width="100%">
+		<thead>
+			<tr>
+				<th>所属地市</th>
+				<th>所属区域</th>
+				<th>基站名</th>
+				<th>CELL_ID</th>
+				<th>扇区名</th>
+				<th>覆盖区域</th>
+				<th>站型</th>
+				<th>频段</th>
+				<th>经度</th>
+                <th>纬度</th>
+				<th>方位角</th>
+				<th>半径</th>
+				<th>半功率角</th>
+				<th>网络</th>
+                <th>操作</th>
+			</tr>
+		</thead>
+	</table>
+</section>
+<!-- Modal -->
+<div id="import_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 style="font-size: 24.5px;font-weight: bold;">导入基站小区</h4>
+            </div>
+            <form id="impForm" name="impForm" method="post" enctype="multipart/form-data">
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">半径比率：</span>
+                    <input type='text' id='rate' name='rate' value="0.2" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">上传文件：</span>
+                    <input type='file' id='cellFile' name='cellFile' class="form-control">
+                </div>
+                <input type='hidden' id='type' name='type' value="2">
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="import_save" class="btn btn-primary">上传</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="cell_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 style="font-size: 24.5px;font-weight: bold;">基站小区</h4>
+            </div>
+            <div class="modal-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">小区参数</a></li>
+                    <li><a id='mapTab' href="#mapPanel" aria-controls="mapPanel" role="tab" data-toggle="tab">地图</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                        <form id="cellForm" name="cellForm" method="post" data-toggle="validator">
+                            <input type="hidden" id="isNew" name="isNew" value="true">
+                            <div class="input-group form-group">
+                              <span class="input-group-addon">城&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp市：</span>
+                              <!-- <select id='city' name='city' class="form-control"></select> -->
+                              <input type='text' id='city' name='city' class="form-control">
+                              <span class="input-group-addon">区&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp域：</span>
+                              <input type='text' id='area' name='area' class="form-control">
+                            </div>
+                            <div class="input-group">
+                              <span class="input-group-addon">基站名称：</span>
+                              <input type='text' id='site_name' name='site_name' class="form-control">
+                            </div>
+                            <div class="input-group">
+                              <span class="input-group-addon" style='color:red'>小&nbsp&nbsp区&nbsp&nbsp名：</span>
+                              <input type='text' id='cell_name' name='cell_name' class="form-control" EWV="required" EWmsg="小区名为必填项"/>
+                            </div>
+                            <div class="input-group form-group">
+                              <span class="input-group-addon" style='color:red'>小&nbsp&nbsp区&nbsp&nbspID：</span>
+                              <input type='text' id='cell_id' name='cell_id' class="form-control" EWV="required" EWmsg="请输入有效的小区ID"/>
+                              <span class="input-group-addon">覆盖区域：</span>
+                              <input type='text' id='cover' name='cover' class="form-control">
+                            </div>
+                            <div class="input-group form-group">
+                                <span class="input-group-addon">基站类型：</span>
+                                <input type='text' id='site_type' name='site_type' class="form-control">
+                                <span class="input-group-addon">基站频段：</span>
+                                <input type='text' id='site_band' name='site_band' class="form-control">
+                            </div>
+                            <div class="input-group form-group">
+                                <span class="input-group-addon" style='color:red'>经&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp度：</span>
+                                <input type='text' id='longitude' name='longitude' class="form-control" EWV="required,regExp=Double" EWmsg="请输入有效经度">
+                                <span class="input-group-addon" style='color:red'>纬&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp度：</span>
+                                <input type='text' id='latitude' name='latitude' class="form-control" EWV="required,regExp=Double" EWmsg="请输入有效纬度">
+                            </div>
+                            <div class="input-group form-group">
+                                <span class="input-group-addon" style='color:red'>半&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp径：</span>
+                                <input type='text' id='radius' name='radius' class="form-control" EWV="required,regExp=IsNumber" EWmsg="请输入有效半径">
+                                <span class="input-group-addon" style='color:red'>半功率角：</span>
+                                <input type='text' id='beamwidth' name='beamwidth' class="form-control" EWV="required,regExp=IsNumber" EWmsg="请输入有效半功率角">
+                            </div>
+                            <div class="input-group form-group">
+                                <span class="input-group-addon" style='color:red'>方&nbsp&nbsp向&nbsp&nbsp角：</span>
+                                <input type='text' id='azimuth' name='azimuth' class="form-control" style="width:80px" EWV="required,regExp=IsNumber" EWmsg="请输入有效方向角">
+                                <span class="input-group-addon" style='color:red'>网络:</span>
+                                <input type='text' id='network' name='network' class="form-control" style="width:80px" EWV="required,regExp=IsNumber" EWmsg="请输入有效网络制式">
+                                <span class="input-group-addon">坐标:</span>
+                                <select id='prj_type' name='prj_type' class="form-control">
+                                    <option value="WGS84">WGS84</option>
+                                    <option value="GCJ02">GCJ02</option>
+                                    <option value="BD09">BD09</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="mapPanel" style="width:580px;height:360px">
+                        <div id='map' style="width:580px;height:360px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="cell_save" class="btn btn-primary">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+</@layout>
+<#include "/gis.html"/>
+<script type="text/javascript" src="static/js/gisCell.js"></script>

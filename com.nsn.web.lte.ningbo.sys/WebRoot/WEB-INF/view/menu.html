@@ -1,0 +1,69 @@
+<#include "/base.html"/>
+<@layout>
+<link rel="stylesheet" href="${ctx}/static/plugins/ztree/css/zTreeStyle.css">
+<style>
+.my-row-title{
+	margin: 5px 0px 5px 0px;
+    font-weight: bold;
+    color: gray;
+    height: 32px;
+    padding: 5px 5px 0px 15px;
+}
+</style>
+<section class="content-header bg-currency">
+	<ol class="breadcrumb pull-left"><li>自定义菜单</li></ol>
+</section>
+<section class="content-fluid" style="margin-top: 6px">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="bg-currency">
+				<div style="height: 500px;margin: 0 auto;overflow:scroll">
+					<ul id="default_menu_tree" class="ztree"></ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="bg-currency" style="margin-left: 5px;">
+				<div style="height: 450px;margin: 0 auto;overflow:scroll">
+					<ul id="custom_menu_tree" class="ztree"></ul>
+				</div>
+				<div style="height: 50px;margin: 0 auto">
+					<a class="btn btn-default btn-sm pull-left" style="margin:5px" href="javascript:Menu.currentMenu();">重置</a>
+					<a class="btn btn-primary btn-sm pull-right" style="margin:5px" href="javascript:Menu.saveJson();">导出JSON文件</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="bg-currency" style="margin-left: 5px;">
+				<div id="menu_detail" style="height: 450px;margin: 0 auto; padding:15px">
+					<form>
+						<div class="form-group">
+							<label for="exampleInputEmail1">菜单名称</label>
+							<input type="text" class="form-control" id="menu_name" placeholder="菜单名称">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">ID/URL</label>
+							<input type="text" class="form-control" id="menu_id" placeholder="菜单ID/URL">
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">图标</label>
+							<input type="text" class="form-control" id="menu_icon" placeholder="图标">
+						</div>
+					</form>
+				</div>
+				<div style="height: 50px;margin: 0 auto">
+					<a class="btn btn-primary btn-sm pull-right" style="margin:5px" href="javascript:Menu.edit();">更新节点</a>
+					<a class="btn btn-danger btn-sm pull-right" style="margin:5px" href="javascript:Menu.remove();">删除节点</a>
+					<a class="btn btn-success btn-sm pull-right" style="margin:5px" href="javascript:Menu.add();">新增节点</a>
+				</div>
+				<!-- 
+					<textarea id="default_menu_json" style="height: 500px; width: 100%; resize:none;"></textarea>
+ 				-->					
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</@layout>
+<script src="${ctx}/static/plugins/ztree/js/jquery.ztree.all.min.js"></script>
+<script src="static/js/menu.js"></script>

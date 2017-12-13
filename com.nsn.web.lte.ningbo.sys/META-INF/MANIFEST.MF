@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Sys
+Bundle-SymbolicName: com.nsn.web.lte.ningbo.sys
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: NSN
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: com.nsn.logger;bundle-version="1.0.0",
+ com.nsn.scheduler;bundle-version="1.0.0",
+ com.nsn.web;bundle-version="1.0.0",
+ com.nsn.web.lte;bundle-version="1.0.0"
+Import-Package: org.osgi.framework;version="1.8.0"
+Bundle-ClassPath: lib/h2-1.4.194.jar,
+ WebRoot/,
+ bin/,
+ .
+Bundle-Activator: com.nsn.web.lte.ningbo.sys.Activator

@@ -1,0 +1,22 @@
+<#include "/base.html"/>
+<@layout>
+
+</@layout>
+<script type="text/javascript">
+$(function(){
+    N.Main = N.Class.extend({
+    	ss:'',
+        print:function(name){
+            console.log("继承之后打印的名字:"+name);
+        },
+        json:function(){
+            $.getJSON("/page/getData",{"sqlId":"sys_user_ftl","id":999999999999}, function(data){
+               console.log("Data Loaded: " + data);
+            });
+        }
+    });
+    var main = new N.Main();
+    main.print('jack');
+    main.json();
+});
+</script>

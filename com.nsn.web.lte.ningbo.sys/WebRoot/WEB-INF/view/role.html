@@ -1,0 +1,176 @@
+<#include "/base.html"/>
+<link rel="stylesheet" href="${ctx}/static/plugins/ztree/css/zTreeStyle.css">
+<@layout>
+<style>
+.center-vertical {
+	position:relative;
+	top:50%;
+	transform:translateY(-50%);
+}
+.list-div {
+	height:255px;
+	padding:0;
+}
+.list-ul {
+	list-style-type:none;
+	padding:0;
+}
+.list-ul li {
+	padding:5px 15px;
+}
+.list-ul .act {
+	background-color: #ddd;
+}
+.my_dialog {
+	display: none; 
+	width: 90%;
+	margin-top:20px;
+}
+.menuContent{
+	position: absolute;
+	height:100px;
+	z-index:99999999;
+	border: 1px solid #617775;
+    background: #f0f6e4;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+</style>
+
+<section class="content-header bg-currency">
+	<ol class="breadcrumb pull-left"><li>角色管理</li></ol>
+	<form class="navbar-form pull-left" role="search" id="searchForm">
+		<div class="form-group">
+			<label for="sch_LIKE_name">角色:</label>
+			<input type="text" class="form-control" id="sch_LIKE_name" name="sch_LIKE_name">
+		</div>
+		<div class="form-group">
+			<label for="sch_EQ_enabled">是否启用:</label>
+			<select id="sch_EQ_enabled" name="sch_EQ_enabled" class="form-control">
+				<option value="">全部</option>
+				<option value="1">启用</option>
+				<option value="0">禁用</option>
+			</select>
+		</div>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="javascript:N.Util.reloadData('page_table');" class="btn btn-success btn-sm">查询</a>&nbsp;&nbsp;
+		<a href="javascript:role.addDialog();" class="btn btn-success btn-sm">添加</a>&nbsp;&nbsp;
+	</form>
+</section>
+
+<section class="content-fluid">
+	<table id="page_table" class="table table-striped table-bordered dt-responsive nowrap  bg-currency" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+            	<th>ID</th>
+                <th>名称</th>
+                <th>状态</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    </table>
+</section>
+
+<!-- 弹出层  - 角色 -->
+<div id="roleDlg" class="my_dialog">
+	<form class="form-horizontal" role="form" id="roleForm">
+		<input type="hidden" id="op" name="op" value="add"/>
+		<input type="hidden" id="roleId" name="id"/>
+		<div class="form-group">
+			<label for="firstname" class="col-sm-2 control-label">名称：</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="name" name="name" maxlength="20"
+				 placeholder="请输入角色名称" data-vali="required">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="lastname" class="col-sm-2 control-label" id="enabled">类型：</label>
+			<div class="col-sm-10">
+				<select class="form-control" id="type" name="type" onChange="role.switchType(this)">
+					<option value="0" selected='selected'>普通</option>
+					<option value="1">特殊</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="lastname" class="col-sm-2 control-label" id="enabled">状态：</label>
+			<div class="col-sm-10">
+				<div class="checkbox" style="padding-top: 1px;">
+					<label class="checkbox-inline">
+						<input type="radio" name="enabled" value="1" checked>启用
+					</label>
+					<label class="checkbox-inline">
+						<input type="radio" name="enabled" value="0" data-vali="required">禁用
+					</label>
+				</div>
+			</div>
+		</div>
+		<div id="remarkDiv" style="height:100px">
+			<div class="form-group">
+				<label for="lastname" class="col-sm-2 control-label">特殊性：</label>
+				<div class="col-sm-10">
+					<input id="remark" name="remark" type="hidden"/>
+					<input id="remarkSel" type="text" readonly value=""
+					style="width:200px;height: 34px; padding: 6px 12px;font-size: 14px;
+					color: #555;background-color: #fff;background-image: none;border: 1px solid #ccc;border-radius: 4px;"/>
+					<a id="menuBtn" href="#" onclick="role.showRemark(); return false;">&nbsp;选择</a>
+					<div id="menuContent" class="menuContent" style="display:none;">
+						<ul id="remarkTree" class="ztree" style="margin-top:0; width:180px;"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!-- 弹出层  - 关联 -->
+<div id="relateDlg" class='center-block my_dialog'>
+	<form class="form-horizontal" role="form" id="relateForm">
+		<input type="hidden" id="relate_rid" name="role_id"/>
+		<div class="row">
+			<div class="col-md-5">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+				        <div class="panel-title">已关联用户</div>
+				    </div>
+				    <div class="panel-body pre-scrollable list-div">
+				    	<ul class="list-ul" id="chos" data-type="chos">
+				    	</ul>
+				    </div>
+				</div>
+			</div>
+			<div class="col-md-2  text-center" style="height:255px;">
+				<div class="btn-group-vertical center-vertical">
+					<a class="btn btn-default chooseBtn" onclick="role.relateChoose('unchos')">
+						<i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i>
+					</a>
+					<a class="btn btn-default chooseBtn" onclick="role.relateChoose('chos')">
+						<i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-5">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+				        <div class="panel-title">未关联用户</div>
+				    </div>
+				    <div class="panel-body pre-scrollable list-div">
+				    	<ul class="list-ul" id="unchos" data-type="unchos">
+				    	</ul>
+				    </div>
+				</div>
+			</div>      
+		</div>
+	</form>
+</div>
+
+<!-- 弹出层  - 关联 -->
+<div id="authDlg" class='center-block my_dialog'>
+	<form class="form-horizontal" role="form" id="authForm">
+		<input type="hidden" id="auth_rid" name="role_id"/>
+		<ul id="menuTree" class="ztree"></ul>
+	</form>
+</div>
+</@layout>
+<script src="${ctx}/static/plugins/ztree/js/jquery.ztree.all.min.js"></script>
+<script src="static/js/role.js"></script>

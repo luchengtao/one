@@ -1,0 +1,87 @@
+<#include "/base.html"/>
+<@layout>
+<style>
+td.details-control {
+    width: 50px;
+    background: url('static/img/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.details td.details-control {
+    background: url('static/img/details_close.png') no-repeat center center;
+}
+</style>
+<section class="content-header bg-currency">
+	<ol class="breadcrumb pull-left"><li>缓存管理</li></ol>
+	<form class="navbar-form pull-left" role="search" id="searchForm">
+		<div class="form-group">
+			<label for="name_or_account">模块:</label>
+			<input type="text" class="form-control" id="sch_LIKE_module" name="sch_LIKE_module">
+		</div>
+		<div class="form-group">
+			<label for="name_or_account">名称:</label>
+			<input type="text" class="form-control" id="sch_LIKE_name" name="sch_LIKE_name">
+		</div>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="#" id="cache_query" class="btn btn-primary btn-sm">查询</a>&nbsp;&nbsp;
+		<a href="#" id="cache_add" class="btn btn-success btn-sm">添加</a>&nbsp;&nbsp;
+		<a href="#" id="cache_clean" class="btn btn-default btn-sm">清空缓存</a>&nbsp;&nbsp;
+		<a href="#" id="cache_load" class="btn btn-danger btn-sm">重新加载</a>&nbsp;&nbsp;
+	</form>
+</section>
+<section class="content-fluid">
+	<table id="page_table" class="table table-striped table-bordered dt-responsive nowrap bg-currency"  width="100%">
+		<thead>
+			<tr>
+				<th></th>
+				<th>模块</th>
+				<th>名称</th>
+				<th>URI</th>
+				<th>参数</th>
+				<th>备注</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+	</table>
+</section>
+<!-- Modal -->
+<div id="cache_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 style="font-size: 24.5px;font-weight: bold;">缓存管理</h4>
+            </div>
+            <div class="modal-body">
+                <form id="cacheForm" name="cellForm" method="post" data-toggle="validator">
+                    <input type="hidden" id="cacheId" name="id" />
+                    <div class="input-group">
+                      <span class="input-group-addon" style='color:red'>模块：</span>
+                      <input type='text' id='module' name='module' class="form-control">
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon" style='color:red'>名称：</span>
+                      <input type='text' id='name' name='name' class="form-control"/>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon" style='color:red'>URI： </span>
+                      <input type='text' id='uri' name='uri' class="form-control"/>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon" style='color:red'>参数：</span>
+                      <input type='text' id='params' name='params' class="form-control"/>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">备注：</span>
+                      <input type='text' id='remark' name='remark' class="form-control"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="cache_save" class="btn btn-primary">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+</@layout>
+<#include "/gis.html"/>
+<script type="text/javascript" src="static/js/cacheLoad.js"></script>
